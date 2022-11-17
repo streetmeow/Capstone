@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabDatabase: {fileID: 11400000, guid: 02dd34af5ff5630418a977e6b8ac0576, type: 2}
-  XmlDataFile: {fileID: 4900000, guid: 7dad3e9e1d56a834793bb9e3b5c4d25b, type: 3}
+  XmlDataFile: {fileID: 4900000, guid: bfd6923a8bbe9c547903571f6944c761, type: 3}
   DebugMode: 0
 --- !u!4 &1311267174
 Transform:
