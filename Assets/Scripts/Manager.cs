@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SocialPlatforms;
@@ -13,6 +15,7 @@ public class Manager : MonoBehaviour
     int[] buttonchange = Enumerable.Repeat<int>(0, 65).ToArray<int>();
     public List<String> chosen = new List<String>();
 
+    
     //public int checkMap = 0;
     //빌딩 순서
     public String[] BLDGSeq =
@@ -107,27 +110,31 @@ public class Manager : MonoBehaviour
     {
         GameObject clickObject = EventSystem.current.currentSelectedGameObject;
         int inx = Int32.Parse(clickObject.name.Substring(6)) - 1;
-        //print(inx);
         ColorBlock cb = clickObject.GetComponent<Button>().colors;
+        //print(inx);
         if (buttonchange[inx] == 0)
         {
             buttonchange[inx] = 1;
-            cb.normalColor = Color.red;
-            cb.highlightedColor = Color.red;
-            cb.pressedColor = Color.red;
+            cb.normalColor = Color.yellow;
+            cb.highlightedColor = Color.yellow;
+            cb.selectedColor = Color.yellow;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Add(clickObject.GetComponentInChildren<Text>().text.Trim());
+            SceneView.RepaintAll();
         }
         else
         {
             buttonchange[inx] = 0;
             cb.normalColor = Color.white;
             cb.highlightedColor = Color.white;
-            cb.pressedColor = Color.white;
+            cb.selectedColor = Color.white;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Remove(clickObject.GetComponentInChildren<Text>().text.Trim());
+            SceneView.RepaintAll();
         }
     }
+
+   
 
     public void Transfer2Map()
     {
