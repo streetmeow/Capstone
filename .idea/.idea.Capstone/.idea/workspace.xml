@@ -32,7 +32,6 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -75,9 +74,10 @@
       <option name="presentableId" value="Default" />
       <updated>1668613379476</updated>
       <workItem from="1668613397455" duration="596000" />
-      <workItem from="1669566256274" duration="612000" />
-      <workItem from="1669569157250" duration="3346000" />
-      <workItem from="1669635402243" duration="18582000" />
+      <workItem from="1669465110377" duration="1259000" />
+      <workItem from="1669527869322" duration="598000" />
+      <workItem from="1669635274831" duration="835000" />
+      <workItem from="1669636237802" duration="1623000" />
     </task>
     <servers />
   </component>
