@@ -12,8 +12,10 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
+    //public GameObject gpsManager;
     int[] buttonchange = Enumerable.Repeat<int>(0, 65).ToArray<int>();
     public List<String> chosen = new List<String>();
+    /*public List<bool> chosen_chk = new List<bool>();
 
     
     //public int checkMap = 0;
@@ -40,12 +42,12 @@ public class Manager : MonoBehaviour
         126.956923, 126.956451, 126.958134, 126.9577, 126.9571, 126.958030, 126.9544, 126.9551,
         126.955889, 126.956254, 126.954535, 126.9547, 126.9566, 126.9569, 126.9559,
         126.957317, 126.9567, 126.957493, 126.957995, 126.958368, 126.9539
-    };
+    };*/
     void Start()
     {
         //checkMap = 0;
     }
-    public double Distance(double lat1, double lon1, double lat2, double lon2)
+    /*public double Distance(double lat1, double lon1, double lat2, double lon2)
     {
         double theta, dist;
         theta = lon1 - lon2;
@@ -105,7 +107,7 @@ public class Manager : MonoBehaviour
             }
         }
         return -1;
-    }
+    }*/
     public void ClickButton()
     {
         GameObject clickObject = EventSystem.current.currentSelectedGameObject;
@@ -134,8 +136,6 @@ public class Manager : MonoBehaviour
         }
     }
 
-   
-
     public void Transfer2Map()
     {
         /*for (int i = 0; i < BLDGSeq.Length; i++)
@@ -147,20 +147,7 @@ public class Manager : MonoBehaviour
         // {
         //     Debug.Log(s);
         // }
+        new GPSManager().init(chosen);
         SceneManager.LoadScene("PathAR");
     }
-
-    /*public void mapChecking()
-    {
-        //checkMap = 1;
-        for (int i = 0; i < BLDGSeq.Length; i++)
-        {
-            Debug.Log(BLDGSeq[i]);
-        }
-        GetPath();
-        foreach (String s in chosen)
-        {
-            Debug.Log(s);
-        }
-    }*/
 }
