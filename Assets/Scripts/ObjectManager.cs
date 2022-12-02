@@ -15,12 +15,19 @@ public class ObjectManager : MonoBehaviour
     private GameObject[] destinations;
     private GameObject[] quests;
     private GameObject[] targetPool;
+    private bool[] targetActivated;
+    private bool[] pathActivated;
+    private bool[] destinationActivated;
+    private bool[] questActivated;
 
     private void Awake()
     {
         paths = new GameObject[100];
         destinations = new GameObject[50];
         quests = new GameObject[50];
+        pathActivated = new bool[paths.Length];
+        destinationActivated = new bool[destinations.Length];
+        questActivated = new bool[quests.Length];
         Generate();
     }
 
@@ -28,44 +35,52 @@ public class ObjectManager : MonoBehaviour
     {
         for (int i = 0; i < paths.Length; i++)
         {
+            // Debug.Log(pathPrefab);
             paths[i] = Instantiate(pathPrefab);
-            paths[i].SetActive(false);
+            pathActivated[i] = false;
+            paths[i].GetComponent<PlaceAtLocation>().Location = new Location();
         }
 
         for (int i = 0; i < destinations.Length; i++)
         {
             destinations[i] = Instantiate(destinationPrefab);
-            destinations[i].SetActive(false);
+            destinationActivated[i] = false;
+            destinations[i].GetComponent<PlaceAtLocation>().Location = new Location();
         }
 
         for (int i = 0; i < quests.Length; i++)
         {
             quests[i] = Instantiate(questPrefab);
-            quests[i].SetActive(false);
+            questActivated[i] = false;
+            quests[i].GetComponent<PlaceAtLocation>().Location = new Location();
         }
     }
 
-    public GameObject MakeObject(string type)
+    public GameObject MakeObject(string type, Location loc)
     {
         switch (type)
         {
             case "path":
                 targetPool = paths;
+                targetActivated = pathActivated;
                 break;
             case "destination":
                 targetPool = destinations;
+                targetActivated = destinationActivated;
                 break;
             case "quest":
                 targetPool = quests;
+                targetActivated = questActivated;
                 break;
         }
 
         for (int i = 0; i < targetPool.Length; i++)
         {
-            if (!targetPool[i].activeSelf)
+            if (!targetActivated[i])
             {
-                targetPool[i].SetActive(true);
-                targetPool[i].GetComponent<ARLocationManager>().Camera = cam;
+                targetPool[i].GetComponent<PlaceAtLocation>().Location = loc;
+                Debug.Log(targetPool[i]);
+                targetActivated[i] = true;
                 return targetPool[i];
             }
         }
@@ -77,12 +92,14 @@ public class ObjectManager : MonoBehaviour
     {
         for (int i = 0; i < destinations.Length; i++)
         {
-            destinations[i].SetActive(false);
+            destinations[i].GetComponent<PlaceAtLocation>().Location = new Location();
+            destinationActivated[i] = false;
         }
 
         for (int i = 0; i < paths.Length; i++)
         {
-            paths[i].SetActive(false);
+            paths[i].GetComponent<PlaceAtLocation>().Location = new Location();
+            pathActivated[i] = false;
         }
     }
 }

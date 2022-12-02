@@ -14,6 +14,7 @@ public class Manager : MonoBehaviour
 {
     //public GameObject gpsManager;
     int[] buttonchange = Enumerable.Repeat<int>(0, 65).ToArray<int>();
+
     public List<String> chosen = new List<String>();
     /*public List<bool> chosen_chk = new List<bool>();
 
@@ -122,7 +123,7 @@ public class Manager : MonoBehaviour
             cb.selectedColor = Color.yellow;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Add(clickObject.GetComponentInChildren<Text>().text.Trim());
-            SceneView.RepaintAll();
+            // SceneView.RepaintAll();
         }
         else
         {
@@ -132,7 +133,7 @@ public class Manager : MonoBehaviour
             cb.selectedColor = Color.white;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Remove(clickObject.GetComponentInChildren<Text>().text.Trim());
-            SceneView.RepaintAll();
+            // SceneView.RepaintAll();
         }
     }
 
@@ -147,7 +148,6 @@ public class Manager : MonoBehaviour
         // {
         //     Debug.Log(s);
         // }
-        new GPSManager().init(chosen);
         SceneManager.LoadScene("PathAR");
     }
 }
