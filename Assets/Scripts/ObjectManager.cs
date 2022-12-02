@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ARLocation;
 using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject pathPrefab;
     public GameObject destinationPrefab;
     public GameObject questPrefab;
+    public Camera cam;
 
     private GameObject[] paths;
     private GameObject[] destinations;
@@ -63,6 +65,7 @@ public class ObjectManager : MonoBehaviour
             if (!targetPool[i].activeSelf)
             {
                 targetPool[i].SetActive(true);
+                targetPool[i].GetComponent<ARLocationManager>().Camera = cam;
                 return targetPool[i];
             }
         }
