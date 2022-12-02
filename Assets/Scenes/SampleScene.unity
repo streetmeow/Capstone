@@ -92,9 +92,7 @@ LightmapSettings:
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
-    m_PVRFilteringAtrousPositionSig
-    
-    direct: 2
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
@@ -291,7 +289,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -632,7 +630,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -766,7 +764,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1763,7 +1761,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1965,7 +1963,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2633,7 +2631,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2767,7 +2765,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3068,7 +3066,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3202,7 +3200,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3368,101 +3366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chosen: []
-  mycolor1: {r: 1, g: 0.8616718, b: 0, a: 0}
-  mycolor2: {r: 1, g: 1, b: 1, a: 0}
-  BLDGSeq:
-  - "\uC815\uBB38"
-  - "101\uAD00(\uC601\uC2E0\uAD00)"
-  - "102\uAD00(\uC57D\uD559\uB300\uD559 \uBC0F R&D \uC13C\uD130)"
-  - "103\uAD00(\uD30C\uC774\uD37C\uD640)"
-  - "104\uAD00(\uC218\uB9BC\uACFC\uD559\uAD00)"
-  - "105\uAD00(\uC81C 1\uC758\uD559\uAD00)"
-  - "106\uAD00(\uC81C 2\uC758\uD559\uAD00)"
-  - "107\uAD00(\uD559\uC0DD\uD68C\uAD00)"
-  - "201\uAD00(\uBCF8\uAD00)"
-  - "202\uAD00(\uC804\uC0B0\uC815\uBCF4\uAD00)"
-  - "203\uAD00(\uC11C\uB77C\uBC8C\uD640)"
-  - "204\uAD00(\uC911\uC559\uB3C4\uC11C\uAD00)"
-  - "207\uAD00(\uBD05\uC2A4\uD2B8\uD640)"
-  - "208\uAD00(\uC81C 2\uACF5\uD559\uAD00)"
-  - "209\uAD00(\uCC3D\uC5C5\uBCF4\uC721\uAD00)"
-  - "301\uAD00(\uC911\uC559\uBB38\uD654\uC608\uC220\uAD00)"
-  - "302\uAD00(\uB300\uD559\uC6D0)"
-  - "303\uAD00(\uBC95\uD559\uAD00)"
-  - "304\uAD00(\uBBF8\uB514\uC5B4\uACF5\uC5F0\uC601\uC0C1\uAD00)"
-  - "305\uAD00(\uAD50\uC218\uC5F0\uAD6C\uB3D9 \uBC0F \uCCB4\uC721\uAD00)"
-  - "307\uAD00(\uAE00\uB85C\uBC8C\uD558\uC6B0\uC2A4)"
-  - "308\uAD00(\uBE14\uB8E8\uBBF8\uB974\uD640 308\uAD00)"
-  - "309\uAD00(\uBE14\uB8E8\uBBF8\uB974\uD640 309\uAD00)"
-  - "310\uAD00(100\uC8FC\uB144 \uAE30\uB150\uAD00)"
-  - "\uCCAD\uB8E1\uC5F0\uBABB"
-  - "\uC790\uC774\uC5B8\uD2B8\uAD6C\uC7A5"
-  - "\uC911\uC559\uB9C8\uB8E8"
-  - "\uC911\uC559\uAD11\uC7A5"
-  - "\uC758\uD608\uD0D1"
-  - "\uD6C4\uBB38"
-  BLDGLat:
-  - 37.507102
-  - 37.505965
-  - 37.506507
-  - 37.505944
-  - 37.505769
-  - 37.5056
-  - 37.505064
-  - 37.506336
-  - 37.505236
-  - 37.504919
-  - 37.504821
-  - 37.504757
-  - 37.5038
-  - 37.5036
-  - 37.503226
-  - 37.5054
-  - 37.5049
-  - 37.504648
-  - 37.504502
-  - 37.504382
-  - 37.5058
-  - 37.5028
-  - 37.502
-  - 37.5037
-  - 37.50562
-  - 37.5037
-  - 37.505896
-  - 37.506363
-  - 37.505131
-  - 37.505
-  BLDGLon:
-  - 126.958897
-  - 126.958035
-  - 126.958952
-  - 126.959014
-  - 126.958242
-  - 126.9589
-  - 126.958749
-  - 126.957269
-  - 126.956908
-  - 126.956923
-  - 126.956451
-  - 126.958134
-  - 126.9577
-  - 126.9571
-  - 126.95803
-  - 126.9544
-  - 126.9551
-  - 126.955889
-  - 126.956254
-  - 126.954535
-  - 126.9547
-  - 126.9566
-  - 126.9569
-  - 126.9559
-  - 126.957317
-  - 126.9567
-  - 126.957493
-  - 126.957995
-  - 126.958368
-  - 126.9539
 --- !u!1 &385051436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3807,7 +3710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.100006, y: 1.9000244}
+  m_AnchoredPosition: {x: 3.0999756, y: 1.9000244}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &424352700
@@ -4548,7 +4451,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5564,7 +5467,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5905,7 +5808,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6316,7 +6219,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6544,7 +6447,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6678,7 +6581,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6946,7 +6849,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7373,7 +7276,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7587,7 +7490,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7721,7 +7624,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8309,7 +8212,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8871,7 +8774,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9808,7 +9711,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9942,7 +9845,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10076,7 +9979,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10424,7 +10327,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10558,7 +10461,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10973,7 +10876,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11107,7 +11010,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11241,7 +11144,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11455,7 +11358,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12346,7 +12249,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12720,7 +12623,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13202,7 +13105,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13336,7 +13239,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13898,7 +13801,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14032,7 +13935,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14166,7 +14069,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14832,7 +14735,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15416,7 +15319,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15550,7 +15453,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16498,7 +16401,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16712,7 +16615,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373232357}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ClickButton
+        m_MethodName: ClickButton2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
