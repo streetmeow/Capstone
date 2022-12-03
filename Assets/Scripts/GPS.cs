@@ -30,9 +30,9 @@ public class GPS // Road의 각 점을 담는 클래스
     public double Distance(GPS g)
     {
         double theta, dist;
-        theta = this.longitude - g.getLongitude();
-        dist = Math.Sin(Deg2rad(this.latitude)) * Math.Sin(Deg2rad(g.getLatitude())) +
-               Math.Cos(Deg2rad(this.latitude)) * Math.Cos(Deg2rad(g.getLatitude())) * Math.Cos(Deg2rad(theta));
+        theta = longitude - g.getLongitude();
+        dist = Math.Sin(Deg2rad(latitude)) * Math.Sin(Deg2rad(g.getLatitude())) +
+               Math.Cos(Deg2rad(latitude)) * Math.Cos(Deg2rad(g.getLatitude())) * Math.Cos(Deg2rad(theta));
         dist = Math.Acos(dist);
         dist = Rad2deg(dist);
         dist = dist * 60 * 1.1515 * 1.609344;
