@@ -6,7 +6,7 @@ using System.Linq;
 using ARLocation;
 using UnityEngine;
 
-public class Road
+/*public class Road
 {
     private GPS[] route; //route: path gps data
     private int[] pnt = new int[2]; //pnt: two end points(nodes)
@@ -51,9 +51,9 @@ public class Road
             }
         }
         return false;
-    }*/
-}
-public class GPS
+    }#1#
+}*/
+/*public class GPS
 {
     private double latitude, longitude;
 
@@ -67,7 +67,7 @@ public class GPS
     {
         var gps = obj as GPS;
         return gps != null && this.latitude == gps.latitude && this.longitude == gps.longitude;
-    }*/
+    }#1#
 
     public double getLatitude()
     {
@@ -100,7 +100,7 @@ public class GPS
         dist = dist * 60 * 1.1515 * 1.609344;
         dist = dist * 1000; //changing to meter
         return Math.Round(dist, 4);
-    }*/
+    }#1#
     private double Deg2rad(double deg)
     {
         return (double)(deg * Math.PI / (double)180d);
@@ -110,10 +110,10 @@ public class GPS
     {
         return (double)(rad * (double)180d / Math.PI);
     }
-}
+}*/
 
 
-public class GPSManager
+public class GPSManager : MonoBehaviour 
 {
     public int[] nodesNum = //BLDGSeq의 노드 번호
     {
@@ -639,39 +639,25 @@ public class GPSManager
         "303관(법학관)", "304관(미디어공연영상관)", "305관(교수연구동 및 체육관)", "307관(글로벌하우스)", "308관(블루미르홀 308관)", "309관(블루미르홀 309관)", "310관(100주년 기념관)",
         "청룡연못", "자이언트구장", "중앙마루", "중앙광장", "의혈탑", "후문"
     };
-
-    /*public double[] BLDGLat =
-    {
-        37.507102, 37.505965, 37.506507, 37.505944, 37.505769, 37.5056, 37.505064, 37.506336, 37.505236,
-        37.504919, 37.504821, 37.504757, 37.5038, 37.5036, 37.503226, 37.5054, 37.5049,
-        37.504648, 37.504502, 37.504382, 37.5058, 37.5028, 37.502, 37.5037,
-        37.505620, 37.5037, 37.505896, 37.506363, 37.505131, 37.505
-    };
     
-    public double[] BLDGLon =
+    public void init(List<String> chosen) //초기화 함수
     {
-        126.958897, 126.958035, 126.958952, 126.959014, 126.958242, 126.9589, 126.958749, 126.957269, 126.956908,
-        126.956923, 126.956451, 126.958134, 126.9577, 126.9571, 126.958030, 126.9544, 126.9551,
-        126.955889, 126.956254, 126.954535, 126.9547, 126.9566, 126.9569, 126.9559,
-        126.957317, 126.9567, 126.957493, 126.957995, 126.958368, 126.9539
-    };*/
-
-    public void init(List<String> chosen)
-    {
-        this.chosen = chosen.ToList();
-        for (int i = 0; i < chosen.Count; i++)
+        this.chosen = chosen.ToList(); // UI로부터 chosen 받아옴
+        for (int i = 0; i < chosen.Count; i++) //가야하는 전체 경로의 bool[] false로 초기화
         {
             chosen_chk.Add(false);
         }
 
-        for (int i = 0; i < roads.Length; i++)
+        for (int i = 0; i < roads.Length; i++) // roads 클래스 내 distance초기화, map은 경로 탐색위해 초기화
         {
             int[] tmp = roads[i].getPnt();
             map[tmp[0],tmp[1]] = roads[i].getDist();
         }
-        GetPath();
+
+        Input.location.Start(); //유저 GPS 시작
+        GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
-    public double Distance(double lat1, double lon1, double lat2, double lon2)
+    public double Distance(double lat1, double lon1, double lat2, double lon2) // 두 GPS간 거리 계산
     {
         double theta, dist;
         theta = lon1 - lon2;
@@ -684,18 +670,17 @@ public class GPSManager
         return Math.Round(dist, 4);
     }
 
-    private double Deg2rad(double deg)
+    private double Deg2rad(double deg) //거리 계산 위한 단위 변환(도->라디안)
     {
         return (double)(deg * Math.PI / (double)180d);
     }
 
-    private double Rad2deg(double rad)
+    private double Rad2deg(double rad) //거리 계산 위한 단위 변환(라디안->도)
     {
         return (double)(rad * (double)180d / Math.PI);
     }
-    public void GetPath()
+    public void GetPath() // 유저로부터 넘겨받은 chosen을 거리에 따라 경로 변경
     {
-        //double currLon = BLDGLon[0], currLat = BLDGLat[0];
         double currLon = buildings[0].getLatitude(), currLat = buildings[0].getLongitude();
         for (int i = 0; i < chosen.Count - 1; i++)
         {
@@ -720,10 +705,11 @@ public class GPSManager
             currLon = buildings[nextInd].getLatitude();
             currLat = buildings[nextInd].getLongitude();
         }
-        pathInfo();
+        chosen.Add("정문"); //마지막 위치까지 간 후 다시 정문으로 돌아오기 위함
+        pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
 
-    private int GetInd(String str)
+    private int GetInd(String str) //string의 index검색
     {
         for(int i = 1; i < BLDGSeq.Length - 1; i++)
         {
@@ -734,7 +720,7 @@ public class GPSManager
         }
         return -1;
     }
-    public int getLastGone()
+    public int getLastGone() //마지막 도착 위치 리턴
     {
         int ind = 0;
         for (int i = 0; i < chosen_chk.Count; i++)
@@ -743,7 +729,7 @@ public class GPSManager
         }
         return ind;
     }
-    public int getFirstNotGone()
+    public int getFirstNotGone() // 다음 가야할 위치의 인텍스 리턴
     {
         for (int i = 0; i < chosen_chk.Count; i++)
         {
@@ -754,7 +740,7 @@ public class GPSManager
         }
         return -1;
     }
-    public String nextPos()
+    public String nextPos() // 다음 가야할 위치의 string 리턴
     {
         for (int i = 0; i < chosen_chk.Count; i++)
         {
@@ -767,7 +753,7 @@ public class GPSManager
         return "ALL_WENT";
     }
 
-    public void DFS(int start, int end, int[] path, int no, double sum)
+    public void DFS(int start, int end, int[] path, int no, double sum) // 경로 탐색 위한 깊이 우선 탐색 함수
     {
         int i, j;
         if (sum > Min_Sum)
@@ -797,25 +783,29 @@ public class GPSManager
             }
         }
     }
-    public List<String> pathInfo()
+    public List<String> pathInfo() //두 노드 간 경로를 받아옴. 처음에는 정문 - chosen[0]으로 시작해서 마지막 도착 건물 - 첫 도착안한 건물 경로 리턴
     {
         List<String> gpsPath = new List<String>();
+        for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
+        {
+            Min_Path[i] = 0;
+        }
         int[] path = new int[MAX_N];
         if (getFirstNotGone() == 0) //아무것도 가지 않은 상태(정문-첫 목적지)
         {
             DFS(1, nodesNum[GetInd(chosen[getFirstNotGone()])], path, 0, 0);
         }
-        else
+        else // 중간 경로 받아올 때
         {
             DFS(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(chosen[getFirstNotGone()])], path, 0, 0);
         }
 
-        for (int i = 1; i < Min_Path.Length; i++)
+        for (int i = 1; i < Min_Path.Length; i++) //path에 들어있는 노드 순서를 통해 찍어놓은 GPS값을 받아 옴.
         {
             foreach (Road r in roads)
             {
                 int[] tmp = r.getPnt();
-                if (tmp[0] == Min_Path[i - 1] && tmp[1] == Min_Path[i])
+                if (tmp[0] == Min_Path[i - 1] && tmp[1] == Min_Path[i]) //노드 순서를 확인 후 순서에 맞게 GPS 값을 넣음
                 {
                     foreach(GPS g in r.getRoute())
                     {
@@ -845,7 +835,7 @@ public class GPSManager
         return gpsPath;
     }
 
-    public void hasArrived(String none) //??
+    public void hasArrived(String none) //넘겨받은 string의 bool[] true로 함.
     {
         if (none.Equals("None"))
         {
@@ -862,5 +852,130 @@ public class GPSManager
                 }
             }
         }
+    }
+
+    private GPS UpdateGPSData() //유저 현재 데이터 리턴
+    {
+        return new GPS(Input.location.lastData.latitude, Input.location.lastData.longitude);
+    }
+
+    public List<String> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로
+    {
+        List<String> newPath = new List<String>();
+        GPS[] arr_tmp;
+        double dist_tmp = 0;
+        GPS userLoc = UpdateGPSData();
+        double dist = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[0].getLatitude(),
+            nodes[0].getLongitude());
+        int ind = 0, fin_ind1 = 0, fin_ind2 = 0;
+        for (int i = 1; i < nodes.Length; i++) //현재 위치에서 가장 가까운 노드 탐색
+        {
+            dist_tmp = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[i].getLatitude(),
+                nodes[i].getLongitude());
+            if (dist > dist_tmp)
+            {
+                dist = dist_tmp;
+                ind = i;
+            }
+        }
+        for(int i = 0; i < roads.Length; i++)
+        {
+            if (roads[i].getPnt()[0] == ind || roads[i].getPnt()[1] == ind) //road 끝 점에 위 노드가 있는 road만 검색
+            {
+                arr_tmp = roads[i].getRoute();
+                for(int j = 0; j < arr_tmp.Length; j++) //노드가 포함되어 있는 road에서 제일 가까운 GPS 점 탐색
+                {
+                    dist_tmp = Distance(userLoc.getLatitude(), userLoc.getLongitude(), arr_tmp[j].getLatitude(),
+                        arr_tmp[j].getLongitude());
+                    if (dist > dist_tmp)
+                    {
+                        dist = dist_tmp;
+                        fin_ind1 = i;
+                        fin_ind2 = j;
+                    }
+                }
+            }
+        }
+        //가장 가까운 점이 있는 도로에서 가장 가까운 노드가 있는 방향 탐색
+        newPath.Add(userLoc.getLatitude() + ", " + userLoc.getLongitude()); //유저 현재 위치 추가
+        arr_tmp = roads[fin_ind1].getRoute();
+        if (roads[fin_ind1].getPnt()[0] == ind) //역방향
+        {
+            for (int i = fin_ind2; i >= 0; i--)
+            {
+                newPath.Add(arr_tmp[i].getLatitude() + ", " + arr_tmp[i].getLongitude());
+            }
+        }
+        else //정방향
+        {
+            for (int i = fin_ind2; i < arr_tmp.Length; i++)
+            {
+                newPath.Add(arr_tmp[i].getLatitude() + ", " + arr_tmp[i].getLongitude());
+            }
+        }
+        //가장 가까운 노드에서부터 다음 목적지까지의 경로 탐색 후 newPath에 추가
+        int[] path = new int[MAX_N];
+        for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
+        {
+            Min_Path[i] = 0;
+        }
+        DFS(ind, nodesNum[GetInd(chosen[getFirstNotGone()])], path, 0, 0);
+        for (int i = 1; i < Min_Path.Length; i++) //path에 들어있는 노드 순서를 통해 찍어놓은 GPS값을 받아 옴.
+        {
+            foreach (Road r in roads)
+            {
+                int[] tmp = r.getPnt();
+                if (tmp[0] == Min_Path[i - 1] && tmp[1] == Min_Path[i]) //노드 순서를 확인 후 순서에 맞게 GPS 값을 넣음
+                {
+                    foreach(GPS g in r.getRoute())
+                    {
+                        newPath.Add(g.getLatitude() + ", " + g.getLongitude());
+                    }
+                }
+                else if (tmp[0] == Min_Path[i] && tmp[1] == Min_Path[i - 1])
+                {
+                    GPS[] g = r.getRoute();
+                    for (int j = g.Length - 1; j >= 0; j--)
+                    {
+                        newPath.Add(g[j].getLatitude() + ", " + g[j].getLongitude());
+                    }
+                }
+            }
+        }
+        return newPath;
+    }
+    public List<String> QuestPath(String questLoc) // 마지막 도착 건물 - 퀘스트 위치
+    {
+        List<String> qstPath = new List<String>();
+        //가장 가까운 노드에서부터 다음 목적지까지의 경로 탐색 후 newPath에 추가
+        int[] path = new int[MAX_N];
+        for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
+        {
+            Min_Path[i] = 0;
+        }
+        DFS(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(questLoc)], path, 0, 0);
+        for (int i = 1; i < Min_Path.Length; i++) //path에 들어있는 노드 순서를 통해 찍어놓은 GPS값을 받아 옴.
+        {
+            foreach (Road r in roads)
+            {
+                int[] tmp = r.getPnt();
+                if (tmp[0] == Min_Path[i - 1] && tmp[1] == Min_Path[i]) //노드 순서를 확인 후 순서에 맞게 GPS 값을 넣음
+                {
+                    foreach(GPS g in r.getRoute())
+                    {
+                        qstPath.Add(g.getLatitude() + ", " + g.getLongitude());
+                    }
+                }
+                else if (tmp[0] == Min_Path[i] && tmp[1] == Min_Path[i - 1])
+                {
+                    GPS[] g = r.getRoute();
+                    for (int j = g.Length - 1; j >= 0; j--)
+                    {
+                        qstPath.Add(g[j].getLatitude() + ", " + g[j].getLongitude());
+                    }
+                }
+            }
+        }
+        return qstPath;
     }
 }
