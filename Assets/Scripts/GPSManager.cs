@@ -560,10 +560,10 @@ public class GPSManager : MonoBehaviour
         "청룡연못", "자이언트구장", "중앙마루", "뺴뺴로광장", "의혈탑", "후문"
     };
     
-    public void init(List<String> chosen)           //초기화 함수
+    public void init(List<String> chosen) //초기화 함수
     {
-        this.chosen = chosen.Distinct().ToList();              // UI로부터 chosen 받아옴
-        for (int i = 0; i < chosen.Count; i++)      //가야하는 전체 경로의 bool[] false로 초기화
+        this.chosen = chosen.Distinct().ToList(); // UI로부터 chosen 받아와서 중복 제거
+        for (int i = 0; i < chosen.Count; i++) //가야하는 전체 경로의 bool[] false로 초기화
         {
             chosen_chk.Add(false);
         }
@@ -571,10 +571,10 @@ public class GPSManager : MonoBehaviour
         {
             for (int j = 0; j < map.GetLength(1); j++)
             {
-                map[i, j] = 0.0;                    //map 초기화
+                map[i, j] = 0.0; //map 초기화
             }
         }
-        for (int i = 0; i < roads.Length; i++)      // roads 클래스 내 distance 계산, map은 경로 탐색위해 값 넣음.
+        for (int i = 0; i < roads.Length; i++) // roads 클래스 내 distance 계산, map은 경로 탐색위해 값 넣음.
         {
             int[] tmp = roads[i].getPnt();
             map[tmp[0],tmp[1]] = roads[i].getDist();
@@ -585,40 +585,8 @@ public class GPSManager : MonoBehaviour
         {
             Debug.Log(s);
         }
-        /*for (int i = 1; i < NODE_N; i++)
-        {
-            for (int j = 1; j < NODE_N; j++)
-            {
-                if (i != j)
-                {
-                    int[] path = new int[MAX_N];
-                    for (int k = 0; k < MAX_N; k++)
-                    {
-                        Min_Path[k] = 0;
-                        path[k] = 0;
-                        //nodeVisit[k] = false;
-                        nodeDst[k] = MAX_D;
-                    }
-                    Min_Sum = MAX_D;
-                    String result = "";
-                    DFS(i , j, path, 0, 0);
-                    foreach(int k in Min_Path)
-                    {
-                        if (k != 0)
-                        {
-                            result += k + "->";
-                        }
-                        /*if (k == j)
-                        {
-                            break;
-                        }#1#
-                    }
-                    Debug.Log(i + "~" + j + "=" + result);
-                }
-            }
-        }*/
         Input.location.Start(); //유저 GPS 시작
-        //GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
+        GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
     public double Distance(double lat1, double lon1, double lat2, double lon2) // 두 GPS간 거리 계산
     {
