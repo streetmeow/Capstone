@@ -100,19 +100,19 @@ public class ARManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            var ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            arRaycastManager.Raycast(Input.mousePosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.FeaturePoint);
-            
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                if (hitInfo.collider.CompareTag("Player"))
-                {
-                    canvas.SetActive(true);
-                }
-            }
-        }
+        // if (Input.GetMouseButton(0))
+        // {
+        //     var ray = cam.ScreenPointToRay(Input.mousePosition);
+        //     RaycastHit hitInfo;
+        //     arRaycastManager.Raycast(Input.mousePosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.FeaturePoint);
+        //     
+        //     if (Physics.Raycast(ray, out hitInfo))
+        //     {
+        //         if (hitInfo.collider.CompareTag("Player"))
+        //         {
+        //             canvas.SetActive(true);
+        //         }
+        //     }
+        // }
     }
 }
