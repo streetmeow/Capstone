@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="67147779-0a34-429a-a9fe-4325396a8ae3" name="Changes" comment="" />
+=======
+    <list default="true" id="67147779-0a34-429a-a9fe-4325396a8ae3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GPSManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GPSManager.cs" afterDir="false" />
+    </list>
+>>>>>>> quest
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,7 +82,11 @@
       <workItem from="1669636237802" duration="1623000" />
       <workItem from="1669863680317" duration="262000" />
       <workItem from="1669949540759" duration="8776000" />
+<<<<<<< HEAD
       <workItem from="1670081730277" duration="698000" />
+=======
+      <workItem from="1670081730277" duration="681000" />
+>>>>>>> quest
     </task>
     <servers />
   </component>
