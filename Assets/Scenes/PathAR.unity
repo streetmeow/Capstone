@@ -747,7 +747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &934963517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,7 +1327,7 @@ MonoBehaviour:
   nextButtonText: {fileID: 103065010}
   pathPrefab: {fileID: 3465328668239822088, guid: 13c64914faae9ee42b555c48cd965920,
     type: 3}
-  p: {fileID: 1006651537370882512, guid: 2fbb95ffd5f8bf74cb082e9981b3c680, type: 3}
+  p: {fileID: 3465328668239822088, guid: 13c64914faae9ee42b555c48cd965920, type: 3}
   canvas: {fileID: 934963516}
   arRaycastManager: {fileID: 0}
 --- !u!4 &1666886237

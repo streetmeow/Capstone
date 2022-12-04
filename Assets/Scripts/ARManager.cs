@@ -24,7 +24,7 @@ public class ARManager : MonoBehaviour
     private List<GameObject> pathObjects = new List<GameObject>();
     private String lastName;
     private String lastExplanation;
-    private Buildings building;
+    private Buildings building = new Buildings();
 
     private void Awake()
     {
@@ -92,7 +92,7 @@ public class ARManager : MonoBehaviour
             building.longitude = gpsManager.NodesForBuildings[i].getLongitude();
             PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
             pathObjects.Add(obj);
-            Debug.Log(building.building + " " + building.explanation + " " + building.latitude + " " + building.longitude);
+            // Debug.Log(building.building + " " + building.explanation + " " + building.latitude + " " + building.longitude);
         }
 
         StartCoroutine(CheckArrival());
@@ -102,7 +102,7 @@ public class ARManager : MonoBehaviour
     IEnumerator CheckArrival()
     {
         yield return new WaitForSeconds(3);
-        if (building.IsClose(0.0006d))
+        if (building.IsClose(0.0006d) )
         {
             canvas.SetActive(true);
             title.text = lastName;
