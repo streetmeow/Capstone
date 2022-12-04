@@ -12,8 +12,9 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    //public GameObject gpsManager;
+    public GameObject gpsManager;
     int[] buttonchange = Enumerable.Repeat<int>(0, 65).ToArray<int>();
+
     public List<String> chosen = new List<String>();
     /*public List<bool> chosen_chk = new List<bool>();
 
@@ -122,7 +123,7 @@ public class Manager : MonoBehaviour
             cb.selectedColor = Color.yellow;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Add(clickObject.GetComponentInChildren<Text>().text.Trim());
-            SceneView.RepaintAll();
+            // SceneView.RepaintAll();
         }
         else
         {
@@ -132,7 +133,103 @@ public class Manager : MonoBehaviour
             cb.selectedColor = Color.white;
             clickObject.GetComponent<Button>().colors = cb;
             chosen.Remove(clickObject.GetComponentInChildren<Text>().text.Trim());
-            SceneView.RepaintAll();
+            // SceneView.RepaintAll();
+        }
+    }
+
+    public void ClickButton2()
+    {
+        GameObject clickObject = EventSystem.current.currentSelectedGameObject;
+        int inx = Int32.Parse(clickObject.name.Substring(6)) - 1;
+        ColorBlock cb = clickObject.GetComponent<Button>().colors;
+        //203관(서라벌홀)
+        var source1 = new String[] {"교육학과","사회학과","사회복지학부","문헌정보학과","심리학과","국어국문학과", "영어영문학과", "유럽문화학부", "아시아문화학부", "철학과", "역사학과" };
+        //303관
+        var source2 = new String[] { "체육교육과", "영어교육과", "유아교육과", "도시계획부동산학과", "미디어커뮤니케이션학부", "정치국제학과", "공공인재학부" };
+        //102관(약학대학 및 R&D 센터)
+        var source3 = new String[] {"간호학과","약학부","물리학과","화학과","수학과"};
+        //104관(수림과학관)
+        var source4 = new String[] { "생명과학과" };
+        //310관
+        var source5 = new String[] { "사회기반시스템공학부","화학신소재공학부","기계공학부","에너지시스템공학부","전자전기공학부","융합공학부","차세대반도체학과","소프트웨어학부","AI학과","경영학부","경제학부","응용통계학과","광고홍보학과","국제물류학과","지식경영학부","산업보안학과"};
+        //208관(제 2공학관)
+        var source6 = new String[] { "건축학부" };
+        //106관(제 2의학관)
+        var source7 = new String[] {"의학부"};
+        
+        if (buttonchange[inx] == 0)
+        {
+            buttonchange[inx] = 1;
+            cb.normalColor = Color.yellow;
+            cb.highlightedColor = Color.yellow;
+            cb.selectedColor = Color.yellow;
+            clickObject.GetComponent<Button>().colors = cb;
+            if (source1.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("203관(서라벌홀)");
+            }
+            else if (source2.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("303관(법학관)");
+            }
+            else if (source3.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("102관(약학대학 및 R&D 센터)");
+            }
+            else if (source4.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("104관(수림과학관)");
+            }
+            else if (source5.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("310관(100주년 기념관)");
+            }
+            else if (source6.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Add("208관(제 2공학관)");
+            }
+            else
+            {
+                chosen.Add("106관(제 2의학관)");    
+            }
+            
+        }
+        else
+        {
+            buttonchange[inx] = 0;
+            cb.normalColor = Color.white;
+            cb.highlightedColor = Color.white;
+            cb.selectedColor = Color.white;
+            clickObject.GetComponent<Button>().colors = cb;
+            if (source1.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("203관(서라벌홀)");
+            }
+            else if (source2.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("303관(법학관)");
+            }
+            else if (source3.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("102관(약학대학 및 R&D 센터)");
+            }
+            else if (source4.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("104관(수림과학관)");
+            }
+            else if (source5.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("310관(100주년 기념관)");
+            }
+            else if (source6.Contains(clickObject.GetComponentInChildren<Text>().text.Trim()))
+            {
+                chosen.Remove("208관(제 2공학관)");
+            }
+            else
+            {
+                chosen.Remove("106관(제 2의학관)");    
+            }
+            
         }
     }
 
@@ -147,7 +244,8 @@ public class Manager : MonoBehaviour
         // {
         //     Debug.Log(s);
         // }
-        new GPSManager().init(chosen);
+        gpsManager.AddComponent<GPSManager>();
+        gpsManager.GetComponent<GPSManager>().init(chosen);
         SceneManager.LoadScene("PathAR");
     }
 }
