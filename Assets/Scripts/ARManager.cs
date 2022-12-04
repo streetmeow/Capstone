@@ -32,7 +32,6 @@ public class ARManager : MonoBehaviour
         hits = new List<ARRaycastHit>();
         cam = Camera.main;
         buildingInfoBuild = GetComponent<BuildingInfoBuild>();
-        Debug.Log(buildingInfoBuild.buildingData);
     }
 
     // Start is called before the first frame update
