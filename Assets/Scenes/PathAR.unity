@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 300568776}
   - component: {fileID: 300568777}
   m_Layer: 0
-  m_Name: GPS
+  m_Name: GPSStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
