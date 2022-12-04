@@ -780,9 +780,9 @@ public class GPSManager : MonoBehaviour
             }
         }
     }
-    public List<String> GetWay(int start, int end) // 두 지점 사이의 경로를 계산, 리턴
+    public List<GPS> GetWay(int start, int end) // 두 지점 사이의 경로를 계산, 리턴
     {
-        List<String> gpsWay = new List<String>();
+        List<GPS> gpsWay = new List<GPS>();
         
         //경로 생성 위한 초기화
         int[] path = new int[MAX_N];
@@ -817,7 +817,7 @@ public class GPSManager : MonoBehaviour
                 {
                     foreach(GPS g in r.getRoute())
                     {
-                        gpsWay.Add(g.getLatitude() + ", " + g.getLongitude());
+                        gpsWay.Add(g);
                     }
 
                     break;
@@ -827,7 +827,7 @@ public class GPSManager : MonoBehaviour
                     GPS[] g = r.getRoute();
                     for (int j = g.Length - 1; j >= 0; j--)
                     {
-                        gpsWay.Add(g[j].getLatitude() + ", " + g[j].getLongitude());
+                        gpsWay.Add(g[j]);
                     }
                     break;
                 }
@@ -861,9 +861,9 @@ public class GPSManager : MonoBehaviour
         return new GPS(Input.location.lastData.latitude, Input.location.lastData.longitude);
     }
 
-    public List<String> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로
+    public List<GPS> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로
     {
-        List<String> newPath = new List<String>();
+        List<GPS> newPath = new List<GPS>();
         GPS[] arr_tmp;
         double dist_tmp = 0;
         GPS userLoc = UpdateGPSData();
@@ -888,19 +888,19 @@ public class GPSManager : MonoBehaviour
         int times = latTimes > lonTimes ? latTimes : lonTimes;
         for (int i = 0; i < times; i++)
         {
-            newPath.Add((userLoc.getLatitude() + (userLoc.getLatitude() - nodes[ind].getLatitude()) * (i + 1) / times) + ", " +
-                        (userLoc.getLongitude() + (userLoc.getLongitude() - nodes[ind].getLongitude()) * (i + 1) / times));
+            newPath.Add(new GPS(userLoc.getLatitude() + (userLoc.getLatitude() - nodes[ind].getLatitude()) * (i + 1) / times,
+                userLoc.getLongitude() + (userLoc.getLongitude() - nodes[ind].getLongitude()) * (i + 1) / times));
         }
 
 
-        foreach (String s in GetWay(ind, nodesNum[GetInd(chosen[getFirstNotGone()])]))
+        foreach (GPS s in GetWay(ind, nodesNum[GetInd(chosen[getFirstNotGone()])]))
         {
             newPath.Add(s);
         }
 
         return newPath;
     }
-    public List<String> QuestPath(String questLoc) // 마지막 도착 건물 - 퀘스트 위치
+    public List<GPS> QuestPath(String questLoc) // 마지막 도착 건물 - 퀘스트 위치
     {
         return GetWay(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(questLoc)]);
 
