@@ -50,7 +50,7 @@ public class ARManager : MonoBehaviour
         // GameObject pl = Instantiate(p);
     }
 
-    void SetText(Buildings buildings)
+    public void SetText(Buildings buildings)
     {
         canvas.SetActive(true);
         title.text = buildings.building;

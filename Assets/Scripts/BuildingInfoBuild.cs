@@ -39,10 +39,12 @@ public class BuildingInfoBuild : MonoBehaviour
         bool questGenerated = false;
         foreach (var kv in buildingData.ToList())
         {
-            if (kv.Key.IsQuest() && !questGenerated && kv.Key.IsClose(0.0005d) && kv.Value == null)
+            if (kv.Key.IsQuest() && !questGenerated && kv.Key.IsClose(0.0005d) && kv.Value == null 
+                && !arManager.canvas.activeSelf)
             {
                 questGenerated = true;
-                
+                arManager.SetText(kv.Key);
+                buildingData[kv.Key] = new GameObject();
             } 
             else if (!kv.Key.IsQuest() && kv.Key.IsClose(0.0015d) && kv.Value == null)
             {
