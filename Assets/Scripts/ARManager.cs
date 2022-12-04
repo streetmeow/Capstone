@@ -35,7 +35,7 @@ public class ARManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetPath();
     }
 
     public void SetText(Buildings buildings)
