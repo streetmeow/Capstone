@@ -101,7 +101,7 @@ public class ARManager : MonoBehaviour
     void Update()
     {
         // if (Input.GetMouseButton(0))
-        // {
+        // { 
         //     var ray = cam.ScreenPointToRay(Input.mousePosition);
         //     RaycastHit hitInfo;
         //     arRaycastManager.Raycast(Input.mousePosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.FeaturePoint);
