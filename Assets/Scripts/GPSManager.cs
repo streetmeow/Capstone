@@ -5,121 +5,13 @@ using System.IO;
 using System.Linq;
 using ARLocation;
 using UnityEngine;
-
-/*public class Road
-{
-    private GPS[] route; //route: path gps data
-    private int[] pnt = new int[2]; //pnt: two end points(nodes)
-    private double distance = 0; //distance of route
-
-    public Road(GPS[] rt, int pnt1, int pnt2)
-    {
-        route = new GPS[rt.Length];
-        for (int i = 0; i < rt.Length; i++)
-        {
-            route[i] = rt[i];
-            if (i != 0)
-            {
-                distance += rt[i].Distance(rt[i - 1]);
-            }
-        }
-        pnt[0] = pnt1;
-        pnt[1] = pnt2;
-    }
-
-    public int[] getPnt()
-    {
-        return pnt;
-    }
-
-    public double getDist()
-    {
-        return distance;
-    }
-
-    public GPS[] getRoute()
-    {
-        return route;
-    }
-    /*public bool chkGPS(GPS gps)
-    {
-        foreach(GPS g in route)
-        {
-            if (g.Equals(gps))
-            {
-                return true;
-            }
-        }
-        return false;
-    }#1#
-}*/
-/*public class GPS
-{
-    private double latitude, longitude;
-
-    public GPS(double latitude, double longitude)
-    {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    /*public override bool Equals(object obj)
-    {
-        var gps = obj as GPS;
-        return gps != null && this.latitude == gps.latitude && this.longitude == gps.longitude;
-    }#1#
-
-    public double getLatitude()
-    {
-        return this.latitude;
-    }
-    public double getLongitude()
-    {
-        return this.longitude;
-    }
-    public double Distance(GPS g)
-    {
-        double theta, dist;
-        theta = this.longitude - g.getLongitude();
-        dist = Math.Sin(Deg2rad(this.latitude)) * Math.Sin(Deg2rad(g.getLatitude())) +
-               Math.Cos(Deg2rad(this.latitude)) * Math.Cos(Deg2rad(g.getLatitude())) * Math.Cos(Deg2rad(theta));
-        dist = Math.Acos(dist);
-        dist = Rad2deg(dist);
-        dist = dist * 60 * 1.1515 * 1.609344;
-        dist = dist * 1000; //changing to meter
-        return Math.Round(dist, 4);
-    }
-    /*private double Distance(double lat1, double lon1, double lat2, double lon2)
-    {
-        double theta, dist;
-        theta = lon1 - lon2;
-        dist = Math.Sin(Deg2rad(lat1)) * Math.Sin(Deg2rad(lat2)) +
-               Math.Cos(Deg2rad(lat1)) * Math.Cos(Deg2rad(lat2)) * Math.Cos(Deg2rad(theta));
-        dist = Math.Acos(dist);
-        dist = Rad2deg(dist);
-        dist = dist * 60 * 1.1515 * 1.609344;
-        dist = dist * 1000; //changing to meter
-        return Math.Round(dist, 4);
-    }#1#
-    private double Deg2rad(double deg)
-    {
-        return (double)(deg * Math.PI / (double)180d);
-    }
-
-    private double Rad2deg(double rad)
-    {
-        return (double)(rad * (double)180d / Math.PI);
-    }
-}*/
-
-
 public class GPSManager : MonoBehaviour 
 {
-    public int[] nodesNum = //BLDGSeq의 노드 번호
+    public int[] nodesNum =                         //BLDGSeq의 노드 번호
     {
-        1, 5, 3, 4, 8, 9, 14, 7, 16, 22, 21, 18, 35, 34, 38, 27, 28, 30, 32, 29, 20, 40, 39, 33
+        1, 5, 3, 4, 8, 9, 14, 7, 16, 22, 21, 18, 35, 34, 38, 27, 28, 30, 32, 29, 20, 40, 39, 33, 11, 42, 43, 44, 45, 46
     };
-    public GPS[] nodes = //길찾기에 사용되는 노드
+    public GPS[] nodes =                            //길찾기에 사용되는 노드
     {
         new GPS(37.506735, 126.958585), //1(정문)
         new GPS(37.506634, 126.957785), //2
@@ -131,7 +23,7 @@ public class GPSManager : MonoBehaviour
         new GPS(37.505843, 126.958441), //8(104)
         new GPS(37.505493, 126.958567), //9(105)
         new GPS(37.505859, 126.957122), //10
-        new GPS(37.505736, 126.957398), //11
+        new GPS(37.505736, 126.957398), //11(청룡연못)
         new GPS(37.505583, 126.957690), //12
         new GPS(37.505392, 126.958284), //13
         new GPS(37.505214, 126.958594), //14(106)
@@ -162,9 +54,14 @@ public class GPSManager : MonoBehaviour
         new GPS(37.502943, 126.956499), //39(309)
         new GPS(37.502945, 126.956963), //40(308)
         new GPS(37.504744, 126.956610), //41(303 뒤)
+        new GPS(37.504012, 126.956611), //42(자이언트구장)
+        new GPS(37.506700, 126.958172), //43(중앙마루)
+        new GPS(37.505935, 126.957498), //44(빼빼로광장)
+        new GPS(37.504962, 126.958295), //45(의혈탑)
+        new GPS(37.505059, 126.953913), //46(후문)
     };
 
-    public GPS[] buildings = //빌딩 방문 순서 찾을 때 사용
+    public GPS[] buildings =                        //빌딩 방문 순서 찾을 때 사용
     {
         new GPS(37.507102, 126.958897), //정문
         new GPS(37.506118, 126.957963), //101
@@ -190,23 +87,27 @@ public class GPSManager : MonoBehaviour
         new GPS(37.502943, 126.956499), //309
         new GPS(37.504038, 126.956342), //310(U)
         new GPS(37.504744, 126.956610), //303(뒤)
-        /* new GPS(37.505620, 126.957317),//청룡연못
-         new GPS(37.5037, 126.9567),//자이언트구장
-         new GPS(37.505896, 126.957493),//빼빼로광장
-         new GPS(37.506363, 126.957995),//중앙광장
-         new GPS(37.505131, 126.958368),//의혈탑#1#
-        new GPS(37.505, 126.9539)//후문*/
+        new GPS(37.505736, 126.957398), //청룡연못
+        new GPS(37.504012, 126.956611), //자이언트구장
+        new GPS(37.506700, 126.958172), //중앙마루
+        new GPS(37.505935, 126.957498), //빼빼로광장
+        new GPS(37.504962, 126.958295), //의혈탑
+        new GPS(37.505059, 126.953913)  //후문
     };
 
-    public Road[] roads =
+    public Road[] roads =                           //두개의 노드로부터 만들어지는 길
     {
-        new Road(new GPS[] // 1-2
+        new Road(new GPS[] // 1-43
         {
             new GPS(37.506735, 126.958585),
+            new GPS(37.506700, 126.958172)
+        },1, 43),
+        new Road(new GPS[] // 43-2
+        {
             new GPS(37.506700, 126.958172),
             new GPS(37.506670, 126.957936),
             new GPS(37.506634, 126.957785)
-        },1, 2),
+        },43, 2),
         new Road(new GPS[] // 1-3
         {
             new GPS(37.506735, 126.958585),
@@ -231,7 +132,7 @@ public class GPSManager : MonoBehaviour
             new GPS(37.506430, 126.957795),
             new GPS(37.506233, 126.957679),
             new GPS(37.506108, 126.957641)
-        },2, 7),					
+        },2, 7),               
         new Road(new GPS[] // 6-20
         {
             new GPS(37.506447, 126.957057),
@@ -249,18 +150,22 @@ public class GPSManager : MonoBehaviour
             new GPS(37.506179, 126.954566),
             new GPS(37.506028, 126.954478),
             new GPS(37.505837, 126.954364)
-        },6, 20),		
-        new Road(new GPS[] // 20-27
+        },6, 20),      
+        new Road(new GPS[] // 20-46
         {
             new GPS(37.505837, 126.954364),
             new GPS(37.505676, 126.954275),
             new GPS(37.505482, 126.954160),
             new GPS(37.505325, 126.954058),
             new GPS(37.505176, 126.953976),
+            new GPS(37.505059, 126.953913)
+        },20, 46),   
+        new Road(new GPS[] // 46-27
+        {
             new GPS(37.505059, 126.953913),
             new GPS(37.505009, 126.954109),
             new GPS(37.504874, 126.954364)
-        },20, 27),
+        },46, 27),
         new Road(new GPS[] // 6-10
         {
             new GPS(37.506447, 126.957057),
@@ -282,13 +187,17 @@ public class GPSManager : MonoBehaviour
             new GPS(37.506124, 126.958190),
             new GPS(37.506108, 126.958421)
         },5, 3),
-        new Road(new GPS[] // 7-11
+        new Road(new GPS[] // 7-44
         {
             new GPS(37.506108, 126.957641),
             new GPS(37.506029, 126.957559),
+            new GPS(37.505935, 126.957498)
+        },7, 44),
+        new Road(new GPS[] // 44-11
+        {
             new GPS(37.505935, 126.957498),
             new GPS(37.505736, 126.957398)
-        },7, 11),
+        },44, 11),
         new Road(new GPS[] // 3-4
         {
             new GPS(37.506108, 126.958421),
@@ -441,14 +350,18 @@ public class GPSManager : MonoBehaviour
             new GPS(37.504475, 126.957334),
             new GPS(37.504429, 126.957261)
         },23, 26),
-        new Road(new GPS[] // 18-19
+        new Road(new GPS[] // 18-45
         {
             new GPS(37.505080, 126.95813),
             new GPS(37.505006, 126.958227),
+            new GPS(37.504962, 126.958295)
+        },18, 45),
+        new Road(new GPS[] // 45-19
+        {
             new GPS(37.504962, 126.958295),
             new GPS(37.504910, 126.958359),
             new GPS(37.504845, 126.958484)
-        },18, 19),
+        },45, 19),
         new Road(new GPS[] // 19-24
         {
             new GPS(37.504845, 126.958484),
@@ -501,7 +414,7 @@ public class GPSManager : MonoBehaviour
         {
             new GPS(37.504120, 126.956436),
             new GPS(37.503784, 126.957372)
-        },35, 34),			
+        },35, 34),         
         new Road(new GPS[] // 27-36
         {
             new GPS(37.504874, 126.954364),
@@ -563,18 +476,22 @@ public class GPSManager : MonoBehaviour
             new GPS(37.504082, 126.956059),
             new GPS(37.504082, 126.956216),
             new GPS(37.504038, 126.956342)
-        },31, 33),	
-        new Road(new GPS[] // 33-34
+        },31, 33),   
+        new Road(new GPS[] // 33-42
         {
             new GPS(37.504038, 126.956342),
             new GPS(37.504060, 126.956460),
+            new GPS(37.504012, 126.956611)
+        },33, 42),
+        new Road(new GPS[] // 42-34
+        {
             new GPS(37.504012, 126.956611),
             new GPS(37.503995, 126.956762),
             new GPS(37.503888, 126.956883),
             new GPS(37.503788, 126.957031),
             new GPS(37.503775, 126.957223),
             new GPS(37.503784, 126.957372)
-        },33, 34),
+        },42, 34),
         new Road(new GPS[] // 34-37
         {
             new GPS(37.503784, 126.957372),
@@ -598,13 +515,13 @@ public class GPSManager : MonoBehaviour
             new GPS(37.502952, 126.956144),
             new GPS(37.502948, 126.956300),
             new GPS(37.502943, 126.956499)
-        },36, 39),				
+        },36, 39),            
         new Road(new GPS[] // 39-40
         {
             new GPS(37.502943, 126.956499),
             new GPS(37.502943, 126.956746),
             new GPS(37.502945, 126.956963)
-        },39, 40),				
+        },39, 40),            
         new Road(new GPS[] // 40-37
         {
             new GPS(37.502945, 126.956963),
@@ -623,37 +540,51 @@ public class GPSManager : MonoBehaviour
         },37, 38)
     };
     
-    public static int MAX_N = 50; 
-    double[,] map = new double[MAX_N,MAX_N];
-    private double Min_Sum = 600;
-    bool[] nodeVisit = new bool[MAX_N];
-    private int[] Min_Path = new int[MAX_N];
+    public static int MAX_N = 50;                   //최대 노드 개수. 배열 개수 잡는데 사용 
+    public static int NODE_N = 47;                  //현재 노드 개수. 반복문에 사용
+    public static double MAX_D = 6781;              //현재 모든 경로의 합. 초기화에 사용
+    double[,] map = new double[MAX_N,MAX_N];        //경로 계산 위한 2차원 배열
+    private double Min_Sum;                         //경로 계산 시 최소 길이 경로 찾기 위한 총 길이
+    //bool[] nodeVisit = new bool[MAX_N];
+    private double[] nodeDst = new double[MAX_N];   //경로 계산 시 각 노드의 최소 경로 담고 있음
+    private int[] Min_Path = new int[MAX_N];        //경로의 노드 순서를 담고 있음
     
-    public List<String> chosen = new List<String>();
-    public List<bool> chosen_chk = new List<bool>();
+    public List<String> chosen = new List<String>();//유저가 가고 싶은 빌딩을 넘겨 받음
+    public List<bool> chosen_chk = new List<bool>();//유저가 가고 싶은 빌딩을 갔는지 확인
 
-    public String[] BLDGSeq =
+    public String[] BLDGSeq =                       //학교 내 빌딩, 주요 장소 이름 순서
     {
         "정문", "101관(영신관)", "102관(약학대학 및 R&D 센터)", "103관(파이퍼홀)", "104관(수림과학관)", "105관(제 1의학관)", "106관(제 2의학관)", "107관(학생회관)", "201관(본관)",
         "202관(전산정보관)", "203관(서라벌홀)", "204관(중앙도서관)", "207관(봅스트홀)", "208관(제 2공학관)", "209관(창업보육관)", "301관(중앙문화예술관)", "302관(대학원)",
         "303관(법학관)", "304관(미디어공연영상관)", "305관(교수연구동 및 체육관)", "307관(글로벌하우스)", "308관(블루미르홀 308관)", "309관(블루미르홀 309관)", "310관(100주년 기념관)",
-        "청룡연못", "자이언트구장", "중앙마루", "중앙광장", "의혈탑", "후문"
+        "청룡연못", "자이언트구장", "중앙마루", "뺴뺴로광장", "의혈탑", "후문"
     };
     
     public void init(List<String> chosen) //초기화 함수
     {
-        this.chosen = chosen.ToList(); // UI로부터 chosen 받아옴
+        this.chosen = chosen.Distinct().ToList(); // UI로부터 chosen 받아와서 중복 제거
         for (int i = 0; i < chosen.Count; i++) //가야하는 전체 경로의 bool[] false로 초기화
         {
             chosen_chk.Add(false);
         }
-
-        for (int i = 0; i < roads.Length; i++) // roads 클래스 내 distance초기화, map은 경로 탐색위해 초기화
+        for(int i = 0; i < map.GetLength(0); i++) 
+        {
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = 0.0; //map 초기화
+            }
+        }
+        for (int i = 0; i < roads.Length; i++) // roads 클래스 내 distance 계산, map은 경로 탐색위해 값 넣음.
         {
             int[] tmp = roads[i].getPnt();
             map[tmp[0],tmp[1]] = roads[i].getDist();
+            map[tmp[1],tmp[0]] = roads[i].getDist();
         }
 
+        foreach (String s in this.chosen)
+        {
+            Debug.Log(s);
+        }
         Input.location.Start(); //유저 GPS 시작
         GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
@@ -706,12 +637,12 @@ public class GPSManager : MonoBehaviour
             currLat = buildings[nextInd].getLongitude();
         }
         chosen.Add("정문"); //마지막 위치까지 간 후 다시 정문으로 돌아오기 위함
-        pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
+        //pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
 
     private int GetInd(String str) //string의 index검색
     {
-        for(int i = 1; i < BLDGSeq.Length - 1; i++)
+        for(int i = 0; i < BLDGSeq.Length; i++)
         {
             if (str.Contains(BLDGSeq[i]))
             {
@@ -740,29 +671,19 @@ public class GPSManager : MonoBehaviour
         }
         return -1;
     }
-    public String nextPos() // 다음 가야할 위치의 string 리턴
-    {
-        for (int i = 0; i < chosen_chk.Count; i++)
-        {
-            if (!chosen_chk[i])
-            {
-                return chosen[i];
-            }
-        }
-
-        return "ALL_WENT";
-    }
-
+    
     public void DFS(int start, int end, int[] path, int no, double sum) // 경로 탐색 위한 깊이 우선 탐색 함수
     {
         int i, j;
         if (sum > Min_Sum)
             return;
-        nodeVisit[start] = true;
+        //nodeVisit[start] = true;
+        nodeDst[start] = sum; 
         path[no] = start;
-        for (i = 0; i < 41; i++) //노드 개수
+        for (i = 1; i < NODE_N; i++) //노드 개수
         {
-            if (map[start, i] > 0 && !nodeVisit[i])
+            //if (i != start && map[start, i] > 0 && !nodeVisit[i])
+            if (i != start && map[start, i] > 0 && sum + map[start, i] < nodeDst[i])
             {
                 if (i == end)
                 {
@@ -775,7 +696,7 @@ public class GPSManager : MonoBehaviour
                         }
 
                         Min_Path[j] = i;
-                        Min_Path[j + 1] = -1;
+                        //Min_Path[j + 1] = -1;
                     }
                     return;
                 }
@@ -783,15 +704,82 @@ public class GPSManager : MonoBehaviour
             }
         }
     }
-    public List<String> pathInfo() //두 노드 간 경로를 받아옴. 처음에는 정문 - chosen[0]으로 시작해서 마지막 도착 건물 - 첫 도착안한 건물 경로 리턴
+    public List<String> GetWay(int start, int end) // 두 지점 사이의 경로를 계산, 리턴
+    {
+        List<String> gpsWay = new List<String>();
+        
+        //경로 생성 위한 초기화
+        int[] path = new int[MAX_N];
+        for (int k = 0; k < MAX_N; k++)
+        {
+            Min_Path[k] = 0;
+            path[k] = 0;
+            //nodeVisit[k] = false;
+            nodeDst[k] = MAX_D;
+        }
+        Min_Sum = MAX_D;
+        //경로 생성
+        DFS(start, end, path, 0, 0);
+        for (int i = 0; i < Min_Path.Length; i++) // 경로 정제
+        {
+            if (Min_Path[i] == end)
+            {
+                for (int j = i + 1; j < Min_Path.Length; j++)
+                {
+                    Min_Path[j] = 0;
+                }
+                break;
+            }
+        }
+        
+        for (int i = 1; i < Min_Path.Length; i++) //path에 들어있는 노드 순서를 통해 찍어놓은 GPS값을 받아 옴.
+        {
+            foreach (Road r in roads)
+            {
+                int[] tmp = r.getPnt();
+                if (tmp[0] == Min_Path[i - 1] && tmp[1] == Min_Path[i]) //노드 순서를 확인 후 순서에 맞게 GPS 값을 넣음
+                {
+                    foreach(GPS g in r.getRoute())
+                    {
+                        gpsWay.Add(g.getLatitude() + ", " + g.getLongitude());
+                    }
+
+                    break;
+                }
+                else if (tmp[0] == Min_Path[i] && tmp[1] == Min_Path[i - 1])
+                {
+                    GPS[] g = r.getRoute();
+                    for (int j = g.Length - 1; j >= 0; j--)
+                    {
+                        gpsWay.Add(g[j].getLatitude() + ", " + g[j].getLongitude());
+                    }
+                    break;
+                }
+            }
+        }
+        
+        return gpsWay;
+    }
+
+    //GetWay()로 대체
+    /*public List<String> pathInfo() //두 노드 간 경로를 받아옴. 처음에는 정문 - chosen[0]으로 시작해서 마지막 도착 건물 - 첫 도착안한 건물 경로 리턴
     {
         List<String> gpsPath = new List<String>();
-        for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
+        int[] path = new int[MAX_N];
+        for (int k = 0; k < MAX_N; k++)
+        {
+            Min_Path[k] = 0;
+            path[k] = 0;
+            //nodeVisit[k] = false;
+            nodeDst[k] = MAX_D;
+        }
+        Min_Sum = MAX_D;
+        /*for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
         {
             Min_Path[i] = 0;
         }
-        int[] path = new int[MAX_N];
-        if (getFirstNotGone() == 0) //아무것도 가지 않은 상태(정문-첫 목적지)
+        int[] path = new int[MAX_N];#1#
+        if (getFirstNotGone() == 0) //아무것도 가지 않은 상태(정문->첫 목적지)
         {
             DFS(1, nodesNum[GetInd(chosen[getFirstNotGone()])], path, 0, 0);
         }
@@ -821,8 +809,12 @@ public class GPSManager : MonoBehaviour
                     }
                 }
             }
+            if (Min_Path[i] == nodesNum[GetInd(chosen[getFirstNotGone()])])
+            {
+                break;
+            }
         }
-        foreach (int i in Min_Path)
+        /*foreach (int i in Min_Path)
         {
             Debug.Log(i);
         }
@@ -830,10 +822,9 @@ public class GPSManager : MonoBehaviour
         foreach (String i in gpsPath)
         {
             Debug.Log(i);
-        }
-        //길 정보 받아오기 chosen[getLastGone()] - chosen[getFirstNotGone()] 경로
+        }#1#
         return gpsPath;
-    }
+    }*/
 
     public void hasArrived(String none) //넘겨받은 string의 bool[] true로 함.
     {
@@ -864,11 +855,12 @@ public class GPSManager : MonoBehaviour
         List<String> newPath = new List<String>();
         GPS[] arr_tmp;
         double dist_tmp = 0;
-        GPS userLoc = UpdateGPSData();
+        //GPS userLoc = UpdateGPSData(); 테스트 위해 주석 처리
+        GPS userLoc = new GPS(37.506484, 126.958078);
         double dist = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[0].getLatitude(),
             nodes[0].getLongitude());
-        int ind = 0, fin_ind1 = 0, fin_ind2 = 0;
-        for (int i = 1; i < nodes.Length; i++) //현재 위치에서 가장 가까운 노드 탐색
+        int ind = 0, finind1 = 0, finind2 = 0;
+        for (int i = 1; i < nodes.Length; i++) //현재 위치에서 가장 가까운 노드와 인덱스 탐색
         {
             dist_tmp = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[i].getLatitude(),
                 nodes[i].getLongitude());
@@ -878,7 +870,7 @@ public class GPSManager : MonoBehaviour
                 ind = i;
             }
         }
-        for(int i = 0; i < roads.Length; i++)
+        /*for (int i = 0; i < roads.Length; i++)
         {
             if (roads[i].getPnt()[0] == ind || roads[i].getPnt()[1] == ind) //road 끝 점에 위 노드가 있는 road만 검색
             {
@@ -890,30 +882,47 @@ public class GPSManager : MonoBehaviour
                     if (dist > dist_tmp)
                     {
                         dist = dist_tmp;
-                        fin_ind1 = i;
-                        fin_ind2 = j;
+                        finind1 = i;
+                        finind2 = j;
                     }
                 }
             }
+        }*/
+        
+        //현재 위치에서 가장 가까운 노드까지 몇번 쪼개는 작업이 필요함.
+        int latTimes = (int)((userLoc.getLatitude() - nodes[ind].getLatitude()) / 0.00005);
+        int lonTimes = (int) ((userLoc.getLongitude() - nodes[ind].getLongitude()) / 0.00005);
+        int times = latTimes > lonTimes ? latTimes : lonTimes;
+        for (int i = 0; i < times; i++)
+        {
+            newPath.Add((userLoc.getLatitude() + (userLoc.getLatitude() - nodes[ind].getLatitude()) * (i + 1) / times) + ", " +
+                        (userLoc.getLongitude() + (userLoc.getLongitude() - nodes[ind].getLongitude()) * (i + 1) / times));
         }
         //가장 가까운 점이 있는 도로에서 가장 가까운 노드가 있는 방향 탐색
-        newPath.Add(userLoc.getLatitude() + ", " + userLoc.getLongitude()); //유저 현재 위치 추가
-        arr_tmp = roads[fin_ind1].getRoute();
-        if (roads[fin_ind1].getPnt()[0] == ind) //역방향
+        /*newPath.Add(userLoc.getLatitude() + ", " + userLoc.getLongitude()); //유저 현재 위치 추가
+        arr_tmp = roads[finind1].getRoute();
+        if (roads[finind1].getPnt()[0] == ind) //역방향
         {
-            for (int i = fin_ind2; i >= 0; i--)
+            for (int i = finind2; i >= 0; i--)
             {
                 newPath.Add(arr_tmp[i].getLatitude() + ", " + arr_tmp[i].getLongitude());
             }
         }
         else //정방향
         {
-            for (int i = fin_ind2; i < arr_tmp.Length; i++)
+            for (int i = finind2; i < arr_tmp.Length; i++)
             {
                 newPath.Add(arr_tmp[i].getLatitude() + ", " + arr_tmp[i].getLongitude());
             }
+        }*/
+
+        foreach (String s in GetWay(ind, nodesNum[GetInd(chosen[getFirstNotGone()])]))
+        {
+            newPath.Add(s);
         }
-        //가장 가까운 노드에서부터 다음 목적지까지의 경로 탐색 후 newPath에 추가
+        
+        
+        /*//가장 가까운 노드에서부터 다음 목적지까지의 경로 탐색 후 newPath에 추가
         int[] path = new int[MAX_N];
         for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
         {
@@ -941,18 +950,24 @@ public class GPSManager : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
         return newPath;
     }
     public List<String> QuestPath(String questLoc) // 마지막 도착 건물 - 퀘스트 위치
     {
-        List<String> qstPath = new List<String>();
+        return GetWay(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(questLoc)]);
+
+        /*List<String> qstPath = new List<String>();
         //가장 가까운 노드에서부터 다음 목적지까지의 경로 탐색 후 newPath에 추가
         int[] path = new int[MAX_N];
-        for (int i = 0; i < Min_Path.Length; i++) //경로의 노드 순서를 담고 있는 Min_Path 0으로 초기화(노드는 1번 부터 시작함)
+        for (int k = 0; k < MAX_N; k++)
         {
-            Min_Path[i] = 0;
+            Min_Path[k] = 0;
+            path[k] = 0;
+            //nodeVisit[k] = false;
+            nodeDst[k] = MAX_D;
         }
+        Min_Sum = MAX_D;
         DFS(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(questLoc)], path, 0, 0);
         for (int i = 1; i < Min_Path.Length; i++) //path에 들어있는 노드 순서를 통해 찍어놓은 GPS값을 받아 옴.
         {
@@ -976,6 +991,6 @@ public class GPSManager : MonoBehaviour
                 }
             }
         }
-        return qstPath;
+        return qstPath;*/
     }
 }

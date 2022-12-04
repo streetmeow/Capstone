@@ -3123,7 +3123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361853951}
-  - component: {fileID: 361853950}
+  - component: {fileID: 361853952}
   m_Layer: 0
   m_Name: GPS
   m_TagString: Untagged
@@ -3131,7 +3131,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &361853950
+--- !u!4 &361853951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361853949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -36.52851, y: 3.0921597, z: 5835.151}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361853952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3143,7 +3158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc93582d91d3b554486d1320f2ef8b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodesNum: 0100000005000000030000000400000008000000090000000e00000007000000100000001600000015000000120000002300000022000000260000001b0000001c0000001e000000200000001d00000014000000280000002700000021000000
+  nodesNum: 0100000005000000030000000400000008000000090000000e00000007000000100000001600000015000000120000002300000022000000260000001b0000001c0000001e000000200000001d000000140000002800000027000000210000000b0000002a0000002b0000002c0000002d0000002e000000
   chosen: []
   chosen_chk: 
   BLDGSeq:
@@ -3174,24 +3189,9 @@ MonoBehaviour:
   - "\uCCAD\uB8E1\uC5F0\uBABB"
   - "\uC790\uC774\uC5B8\uD2B8\uAD6C\uC7A5"
   - "\uC911\uC559\uB9C8\uB8E8"
-  - "\uC911\uC559\uAD11\uC7A5"
+  - "\uBEB4\uBEB4\uB85C\uAD11\uC7A5"
   - "\uC758\uD608\uD0D1"
   - "\uD6C4\uBB38"
---- !u!4 &361853951
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361853949}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -36.52851, y: 3.0921597, z: 5835.151}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &368138164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3443,6 +3443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b754d7438ecc464382c642fa4a177dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gpsManager: {fileID: 361853949}
   chosen: []
 --- !u!1 &385051436
 GameObject:

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    //public GameObject gpsManager;
+    public GameObject gpsManager;
     int[] buttonchange = Enumerable.Repeat<int>(0, 65).ToArray<int>();
 
     public List<String> chosen = new List<String>();
@@ -244,6 +244,8 @@ public class Manager : MonoBehaviour
         // {
         //     Debug.Log(s);
         // }
+        gpsManager.AddComponent<GPSManager>();
+        gpsManager.GetComponent<GPSManager>().init(chosen);
         SceneManager.LoadScene("PathAR");
     }
 }
