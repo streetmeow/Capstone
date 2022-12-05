@@ -16,6 +16,7 @@ public class ARManager : MonoBehaviour
     public GameObject p;
     public GameObject canvas;
     public ARRaycastManager arRaycastManager;
+    public TextMeshProUGUI destText;
 
     private Vector2 testVec;
     private GPSManager gpsManager;
@@ -59,6 +60,7 @@ public class ARManager : MonoBehaviour
         lastInt = gpsManager.getFirstNotGone();
         lastName = gpsManager.BLDGSeq[lastInt];
         lastExplanation = gpsManager.infoStrings[lastInt];
+        destText.text = lastName;
         if (pathObjects.Count > 0)
         {
             for (int i = 0; i < pathObjects.Count; i++)
@@ -102,7 +104,7 @@ public class ARManager : MonoBehaviour
     IEnumerator CheckArrival()
     {
         yield return new WaitForSeconds(3);
-        if (building.IsClose(0.0006d) )
+        if (building.IsClose(0.0004d) )
         {
             canvas.SetActive(true);
             title.text = lastName;
