@@ -661,7 +661,7 @@ public class GPSManager : MonoBehaviour
         {
             Debug.Log(s);
         }
-        Input.location.Start(); //유저 GPS 시작
+        Input.location.Start(desiredAccuracyInMeters:5,updateDistanceInMeters:1); //유저 GPS 시작
         GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
     public double Distance(double lat1, double lon1, double lat2, double lon2) // 두 GPS간 거리 계산
@@ -858,7 +858,7 @@ public class GPSManager : MonoBehaviour
 
     private GPS UpdateGPSData() //유저 현재 데이터 리턴
     {
-        return new GPS(Input.location.lastData.latitude, Input.location.lastData.longitude);
+        return new GPS(Input.location.lastData.latitude * 1d, Input.location.lastData.longitude * 1d);
     }
 
     public List<GPS> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로

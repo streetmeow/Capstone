@@ -46,7 +46,7 @@ public class BuildingInfoBuild : MonoBehaviour
                 arManager.SetText(kv.Key);
                 buildingData[kv.Key] = new GameObject();
             } 
-            else if (!kv.Key.IsQuest() && kv.Key.IsClose(0.0015d) && kv.Value == null)
+            else if (!kv.Key.IsQuest() && kv.Key.IsClose(0.0007d) && kv.Value == null)
             {
                 var loc = new Location()
                 {
@@ -69,7 +69,7 @@ public class BuildingInfoBuild : MonoBehaviour
                 PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
                 buildingData[kv.Key] = obj;
             } 
-            else if (!kv.Key.IsQuest() && !kv.Key.IsClose(0.0015d) && kv.Value != null)
+            else if (!kv.Key.IsQuest() && !kv.Key.IsClose(0.0007d) && kv.Value != null)
             {
                 GameObject tempObj = kv.Value;
                 buildingData[kv.Key] = null;

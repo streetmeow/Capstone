@@ -12,8 +12,8 @@ public class Buildings
 
     public bool IsClose(double distance)
     {
-        double gpsLat = Input.location.lastData.latitude;
-        double gpsLong = Input.location.lastData.longitude;
+        double gpsLat = Input.location.lastData.latitude * 1d;
+        double gpsLong = Input.location.lastData.longitude * 1d;
         double value = Math.Pow(Math.Pow(latitude - gpsLat, 2d) + Math.Pow(longitude - gpsLong, 2d), 0.5d);
         if (value > distance) return false;
         return true;
