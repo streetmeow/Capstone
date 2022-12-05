@@ -17,6 +17,7 @@ public class ARManager : MonoBehaviour
     public GameObject canvas;
     public ARRaycastManager arRaycastManager;
     public TextMeshProUGUI destText;
+    public TextMeshProUGUI distanceText;
 
     private Vector2 testVec;
     private GPSManager gpsManager;
@@ -26,6 +27,7 @@ public class ARManager : MonoBehaviour
     private String lastName;
     private String lastExplanation;
     private Buildings building = new Buildings();
+    private bool isFirst = true;
 
     private void Awake()
     {
@@ -57,46 +59,7 @@ public class ARManager : MonoBehaviour
     public void SetPath()
     {
         if (nextButtonText.text != "다음 장소로") return;
-        lastInt = gpsManager.getFirstNotGone();
-        lastName = gpsManager.BLDGSeq[lastInt];
-        lastExplanation = gpsManager.infoStrings[lastInt];
-        destText.text = lastName;
-        if (pathObjects.Count > 0)
-        {
-            for (int i = 0; i < pathObjects.Count; i++)
-            {
-                Destroy(pathObjects[i]);
-            }
-            pathObjects.Clear();
-        }
-        pathList.Clear();
-        pathList = gpsManager.OutOfPath();
-        for (int i = 0; i < pathList.Count; i++)
-        {
-            var loc = new Location()
-            {
-                Latitude = pathList[i].getLatitude(),
-                Longitude = pathList[i].getLongitude(),
-                Altitude = 0,
-                AltitudeMode = AltitudeMode.DeviceRelative
-            };
-            var opts = new PlaceAtLocation.PlaceAtOptions()
-            {
-                HideObjectUntilItIsPlaced = true,
-                MaxNumberOfLocationUpdates = 2,
-                MovementSmoothing = 0.1f,
-                UseMovingAverage = false
-            };
-            GameObject obj = Instantiate(pathPrefab);
-            building.building = lastName;
-            building.explanation = lastExplanation;
-            building.latitude = gpsManager.NodesForBuildings[i].getLatitude();
-            building.longitude = gpsManager.NodesForBuildings[i].getLongitude();
-            PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
-            pathObjects.Add(obj);
-            // Debug.Log(building.building + " " + building.explanation + " " + building.latitude + " " + building.longitude);
-        }
-
+        isFirst = true;
         StartCoroutine(CheckArrival());
 
     }
@@ -104,7 +67,8 @@ public class ARManager : MonoBehaviour
     IEnumerator CheckArrival()
     {
         yield return new WaitForSeconds(3);
-        if (building.IsClose(0.0004d) )
+        destText.text = building.Distance().ToString();
+        if (building.IsClose(0.0006d) && !isFirst)
         {
             canvas.SetActive(true);
             title.text = lastName;
@@ -119,6 +83,48 @@ public class ARManager : MonoBehaviour
         }
         else
         {
+            if (isFirst)
+            {
+                isFirst = false;
+                lastInt = gpsManager.getFirstNotGone();
+                lastName = gpsManager.BLDGSeq[lastInt];
+                lastExplanation = gpsManager.infoStrings[lastInt];
+                building.building = lastName;
+                building.explanation = lastExplanation;
+                building.latitude = gpsManager.NodesForBuildings[lastInt].getLatitude();
+                building.longitude = gpsManager.NodesForBuildings[lastInt].getLongitude();
+                destText.text = lastName;
+            }
+            if (pathObjects.Count > 0)
+            {
+                for (int i = 0; i < pathObjects.Count; i++)
+                {
+                    Destroy(pathObjects[i]);
+                }
+                pathObjects.Clear();
+            }
+            pathList.Clear();
+            pathList = gpsManager.OutOfPath();
+            for (int i = 0; i < pathList.Count; i++)
+            {
+                var loc = new Location()
+                {
+                    Latitude = pathList[i].getLatitude(),
+                    Longitude = pathList[i].getLongitude(),
+                    Altitude = 0,
+                    AltitudeMode = AltitudeMode.DeviceRelative
+                };
+                var opts = new PlaceAtLocation.PlaceAtOptions()
+                {
+                    HideObjectUntilItIsPlaced = true,
+                    MaxNumberOfLocationUpdates = 2,
+                    MovementSmoothing = 0.1f,
+                    UseMovingAverage = false
+                };
+                GameObject obj = Instantiate(pathPrefab);
+                PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
+                pathObjects.Add(obj);
+            }
             StartCoroutine(CheckArrival());
         }
     }

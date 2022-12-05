@@ -26,4 +26,11 @@ public class Buildings
         return false;
     }
 
+    public double Distance()
+    {
+        double gpsLat = Input.location.lastData.latitude * 1d;
+        double gpsLong = Input.location.lastData.longitude * 1d;
+        return Math.Pow(Math.Pow(latitude - gpsLat, 2d) + Math.Pow(longitude - gpsLong, 2d), 0.5d);
+    }
+
 }
