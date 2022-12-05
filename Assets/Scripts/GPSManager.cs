@@ -832,9 +832,9 @@ public class GPSManager : MonoBehaviour
         return gpsWay;
     }
 
-    public void hasArrived(String str) //넘겨받은 string의 bool[] true로 함.
+    public void hasArrived(int ind) //넘겨받은 ind로 chosen_chk 변경.
     {
-        double usrLat = Double.Parse(str.Split(", ")[0]), usrLong = Double.Parse(str.Split(", ")[1]);
+        double usrLat = nodes[nodesNum[ind]].getLatitude(), usrLong = nodes[nodesNum[ind]].getLongitude();
         if(Distance(usrLat, usrLong, nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLatitude(), 
                nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLongitude()) <= 6)
         {
