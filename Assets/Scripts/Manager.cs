@@ -109,6 +109,7 @@ public class Manager : MonoBehaviour
         }
         return -1;
     }*/
+
     public void ClickButton()
     {
         GameObject clickObject = EventSystem.current.currentSelectedGameObject;
@@ -245,6 +246,7 @@ public class Manager : MonoBehaviour
         //     Debug.Log(s);
         // }
         gpsManager.AddComponent<GPSManager>();
+        chosen = chosen.Distinct().ToList();
         gpsManager.GetComponent<GPSManager>().init(chosen);
         SceneManager.LoadScene("PathAR");
     }

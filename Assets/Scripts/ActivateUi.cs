@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -8,6 +9,9 @@ using UnityEngine.XR.ARFoundation;
 public class ActivateUi : MonoBehaviour
 {
     public GameObject ui;
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI body;
+    public TextMeshProUGUI buttonText;
     
     [SerializeField]
     private Camera arCamera;
@@ -44,7 +48,11 @@ public class ActivateUi : MonoBehaviour
                 {
                     if (hitObject.transform.CompareTag("Player"))
                     {
+                        ObjectInfo oi = hitObject.transform.gameObject.GetComponent<ObjectInfo>();
                         ui.SetActive(true);
+                        title.text = oi.Name;
+                        body.text = oi.Explanation;
+                        buttonText.text = "확인";
                     }
                 }
             }

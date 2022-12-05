@@ -17,7 +17,7 @@ public class GPSLatLong : MonoBehaviour
             yield break;
 
         // Starts the location service.
-        Input.location.Start();
+        Input.location.Start(desiredAccuracyInMeters:5, updateDistanceInMeters:1);
 
         // Waits until the location service initializes
         int maxWait = 20;

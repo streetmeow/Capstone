@@ -17,102 +17,108 @@ public class ARManager : MonoBehaviour
     public GameObject canvas;
     public ARRaycastManager arRaycastManager;
 
-    private GameObject[] paths;
     private Vector2 testVec;
-    private List<Buildings> buildingInfo;
-    private List<Buildings> questInfo;
-    private Camera cam;
-    private List<ARRaycastHit> hits;
+    private GPSManager gpsManager;
+    private int lastInt;
+    private List<GPS> pathList = new List<GPS>();
+    private List<GameObject> pathObjects = new List<GameObject>();
+    private String lastName;
+    private String lastExplanation;
+    private Buildings building = new Buildings();
 
     private void Awake()
     {
-        buildingInfo = new List<Buildings>();
-        questInfo = new List<Buildings>();
-        hits = new List<ARRaycastHit>();
-        cam = Camera.main;
+        // Debug.Log("VAR" + 22222222.3d);
+        gpsManager = GameObject.FindGameObjectWithTag("GPS").GetComponent<GPSManager>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        var loc = new Location()
-        {
-            Latitude = 37.54999160726763D,
-            Longitude = 127.01391690020739D,
-            Altitude = 0,
-            AltitudeMode = AltitudeMode.DeviceRelative
-        };
-        var opts = new PlaceAtLocation.PlaceAtOptions()
-        {
-            HideObjectUntilItIsPlaced = true,
-            MaxNumberOfLocationUpdates = 2,
-            MovementSmoothing = 0.1f,
-            UseMovingAverage = false
-        };
-        GameObject pl = Instantiate(p);
-        PlaceAtLocation.AddPlaceAtComponent(pl, loc, opts);
-        Debug.Log("VAR");
-        buildingInfo.Add(
-            new Buildings
-                { building = "test1", explanation = "", latitude = 37.55003711556202d, longitude = 127.01403592011496d });
-        questInfo.Add(
-            new Buildings
-                { building = "test1", explanation = "", latitude = 37.54942944204559d, longitude = 127.01334874325624d });
-        StartCoroutine(CheckLocation());
-        // GameObject game = objectManager.MakeObject("path", loc);
-        // PlaceAtLocation place = game.GetComponent<PlaceAtLocation>();
-        // body.text = place.RawGpsDistance.ToString();
-        // GameObject pl = Instantiate(p);
+        SetPath();
     }
 
-    IEnumerator CheckLocation()
+    public void SetText(Buildings buildings)
     {
-        yield return new WaitForSeconds(3f);
-        double gpsLat = Input.location.lastData.latitude;
-        double gpsLong = Input.location.lastData.longitude;
-        for (int i = 0; i < buildingInfo.Count; i++)
+        canvas.SetActive(true);
+        title.text = buildings.building;
+        body.text = buildings.explanation;
+        if (buildings.IsQuest())
         {
-            double dist = CheckDistanceFromGps(buildingInfo[i].latitude, buildingInfo[i].longitude, gpsLat, gpsLong);
-            if (dist < 0.001d)
-            {
-                body.text = dist.ToString();
-            }
+            nextButtonText.text = "닫기";
         }
-        for (int i = 0; i < questInfo.Count; i++)
+        else
         {
-            double dist = CheckDistanceFromGps(questInfo[i].latitude, questInfo[i].longitude, gpsLat, gpsLong);
-            if (dist < 0.002d)
-            {
-                title.text = dist.ToString();
-                questInfo.RemoveAt(i);
-                break;
-            }
+            nextButtonText.text = "다음 장소로";
         }
-        StartCoroutine(CheckLocation());
     }
 
-    double CheckDistanceFromGps(double lat, double longV, double gpsLat, double gpsLong)
+    public void SetPath()
     {
-        double value = Math.Pow(Math.Pow(lat - gpsLat, 2d) + Math.Pow(longV - gpsLong, 2d), 0.5d);
-        return value;
+        if (nextButtonText.text != "다음 장소로") return;
+        lastInt = gpsManager.getFirstNotGone();
+        lastName = gpsManager.BLDGSeq[lastInt];
+        lastExplanation = gpsManager.infoStrings[lastInt];
+        if (pathObjects.Count > 0)
+        {
+            for (int i = 0; i < pathObjects.Count; i++)
+            {
+                Destroy(pathObjects[i]);
+            }
+            pathObjects.Clear();
+        }
+        pathList.Clear();
+        pathList = gpsManager.OutOfPath();
+        for (int i = 0; i < pathList.Count; i++)
+        {
+            var loc = new Location()
+            {
+                Latitude = pathList[i].getLatitude(),
+                Longitude = pathList[i].getLongitude(),
+                Altitude = 0,
+                AltitudeMode = AltitudeMode.DeviceRelative
+            };
+            var opts = new PlaceAtLocation.PlaceAtOptions()
+            {
+                HideObjectUntilItIsPlaced = true,
+                MaxNumberOfLocationUpdates = 2,
+                MovementSmoothing = 0.1f,
+                UseMovingAverage = false
+            };
+            GameObject obj = Instantiate(pathPrefab);
+            building.building = lastName;
+            building.explanation = lastExplanation;
+            building.latitude = gpsManager.NodesForBuildings[i].getLatitude();
+            building.longitude = gpsManager.NodesForBuildings[i].getLongitude();
+            PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
+            pathObjects.Add(obj);
+            // Debug.Log(building.building + " " + building.explanation + " " + building.latitude + " " + building.longitude);
+        }
+
+        StartCoroutine(CheckArrival());
+
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator CheckArrival()
     {
-        // if (Input.GetMouseButton(0))
-        // { 
-        //     var ray = cam.ScreenPointToRay(Input.mousePosition);
-        //     RaycastHit hitInfo;
-        //     arRaycastManager.Raycast(Input.mousePosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.FeaturePoint);
-        //     
-        //     if (Physics.Raycast(ray, out hitInfo))
-        //     {
-        //         if (hitInfo.collider.CompareTag("Player"))
-        //         {
-        //             canvas.SetActive(true);
-        //         }
-        //     }
-        // }
+        yield return new WaitForSeconds(3);
+        if (building.IsClose(0.0006d) )
+        {
+            canvas.SetActive(true);
+            title.text = lastName;
+            body.text = lastExplanation;
+            nextButtonText.text = "다음 장소로";
+            gpsManager.hasArrived(lastName);
+            for (int i = 0; i < pathObjects.Count; i++)
+            {
+                Destroy(pathObjects[i]);
+            }
+            pathObjects.Clear();
+        }
+        else
+        {
+            StartCoroutine(CheckArrival());
+        }
     }
+
 }
