@@ -67,7 +67,7 @@ public class ARManager : MonoBehaviour
     IEnumerator CheckArrival()
     {
         yield return new WaitForSeconds(3);
-        destText.text = building.Distance().ToString();
+        distanceText.text = building.Distance().ToString();
         if (building.IsClose(0.0006d) && !isFirst)
         {
             canvas.SetActive(true);
@@ -86,8 +86,8 @@ public class ARManager : MonoBehaviour
             if (isFirst)
             {
                 isFirst = false;
-                lastInt = gpsManager.getFirstNotGone();
-                lastName = gpsManager.BLDGSeq[lastInt];
+                lastName = gpsManager.chosen[gpsManager.getFirstNotGone()];
+                lastInt = gpsManager.GetInd(lastName);
                 lastExplanation = gpsManager.infoStrings[lastInt];
                 building.building = lastName;
                 building.explanation = lastExplanation;

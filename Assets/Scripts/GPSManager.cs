@@ -716,7 +716,7 @@ public class GPSManager : MonoBehaviour
         //pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
 
-    private int GetInd(String str) //string의 index검색
+    public int GetInd(String str) //string의 index검색
     {
         for(int i = 0; i < BLDGSeq.Length; i++)
         {
