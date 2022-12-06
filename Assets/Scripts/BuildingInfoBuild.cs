@@ -31,6 +31,27 @@ public class BuildingInfoBuild : MonoBehaviour
     private void Start()
     {
         StartCoroutine(CheckLocation());
+        var loc = new Location()
+        {
+            Latitude = 37.54992712059057d,
+            Longitude = 127.01397176367504d,
+            Altitude = 0,
+            AltitudeMode = AltitudeMode.DeviceRelative
+        };
+        var opts = new PlaceAtLocation.PlaceAtOptions()
+        {
+            HideObjectUntilItIsPlaced = true,
+            MaxNumberOfLocationUpdates = 2,
+            MovementSmoothing = 0.1f,
+            UseMovingAverage = false
+        };
+        GameObject obj = Instantiate(buildingPrefab);
+        ObjectInfo oi = obj.GetComponent<ObjectInfo>();
+        // obj.GetComponent<BuildingText>().SetText("시험시험시험시험시험시험시험");
+        // obj.GetComponent<BuildingText>().SetBuilding("시험시험시험시험시험시험시험", "시험시험시험을테스트");
+        oi.Name = "시험시험시험시험시험시험시험";
+        oi.Explanation = "시험시험시험을테스트";
+        PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
     }
 
     IEnumerator CheckLocation()
@@ -64,8 +85,10 @@ public class BuildingInfoBuild : MonoBehaviour
                 };
                 GameObject obj = Instantiate(buildingPrefab);
                 ObjectInfo oi = obj.GetComponent<ObjectInfo>();
+                // obj.GetComponent<BuildingText>().SetText(kv.Key.building);
                 oi.Name = kv.Key.building;
                 oi.Explanation = kv.Key.explanation;
+                // obj.GetComponent<BuildingText>().SetBuilding(kv.Key.building, kv.Key.explanation);
                 PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
                 buildingData[kv.Key] = obj;
             } 

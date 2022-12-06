@@ -28,6 +28,7 @@ public class ARManager : MonoBehaviour
     private String lastExplanation;
     private Buildings building = new Buildings();
     private bool isFirst = true;
+    private bool isTest = false;
 
     private void Awake()
     {
@@ -64,17 +65,24 @@ public class ARManager : MonoBehaviour
 
     }
 
+    public void TestArrival()
+    {
+        isTest = true;
+    }
+
     IEnumerator CheckArrival()
     {
         yield return new WaitForSeconds(3);
         distanceText.text = building.Distance().ToString();
-        if (building.IsClose(0.0006d) && !isFirst)
+        if ((building.IsClose(0.0006d) && !isFirst) || isTest)
         {
+            Debug.Log("isFirst " + isFirst);
+            isTest = false;
             canvas.SetActive(true);
             title.text = lastName;
             body.text = lastExplanation;
             nextButtonText.text = "다음 장소로";
-            gpsManager.hasArrived(lastName);
+            gpsManager.hasArrived(lastInt);
             for (int i = 0; i < pathObjects.Count; i++)
             {
                 Destroy(pathObjects[i]);
@@ -85,6 +93,7 @@ public class ARManager : MonoBehaviour
         {
             if (isFirst)
             {
+                Debug.Log("gps first " + gpsManager.getFirstNotGone());
                 isFirst = false;
                 lastName = gpsManager.chosen[gpsManager.getFirstNotGone()];
                 lastInt = gpsManager.GetInd(lastName);
@@ -107,6 +116,7 @@ public class ARManager : MonoBehaviour
             pathList = gpsManager.OutOfPath();
             for (int i = 0; i < pathList.Count; i++)
             {
+                // Debug.Log(pathList[i].getLatitude() + ", " + pathList[i].getLongitude());
                 var loc = new Location()
                 {
                     Latitude = pathList[i].getLatitude(),

@@ -834,24 +834,25 @@ public class GPSManager : MonoBehaviour
 
     public void hasArrived(int ind) //넘겨받은 ind로 chosen_chk 변경.
     {
-        double usrLat = nodes[nodesNum[ind]].getLatitude(), usrLong = nodes[nodesNum[ind]].getLongitude();
-        if(Distance(usrLat, usrLong, nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLatitude(), 
-               nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLongitude()) <= 6)
-        {
-            chosen_chk[getFirstNotGone()] = true;
-        }
-        else
-        {
-            for (int i = 0; i < chosen.Count; i++)
-            {
-                if (!chosen_chk[i] && Distance(usrLat, usrLong,
-                        nodes[nodesNum[GetInd(chosen[i])] - 1].getLatitude(), nodes[nodesNum[GetInd(chosen[i])] - 1].getLongitude()) <= 6)
-                {
-                    chosen_chk[i] = true;
-                    break;
-                }
-            }
-        }
+        // double usrLat = nodes[nodesNum[ind]].getLatitude(), usrLong = nodes[nodesNum[ind]].getLongitude();
+        // if(Distance(usrLat, usrLong, nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLatitude(), 
+        //        nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLongitude()) <= 6)
+        // {
+        //     chosen_chk[getFirstNotGone()] = true;
+        // }
+        // else
+        // {
+        //     for (int i = 0; i < chosen.Count; i++)
+        //     {
+        //         if (!chosen_chk[i] && Distance(usrLat, usrLong,
+        //                 nodes[nodesNum[GetInd(chosen[i])] - 1].getLatitude(), nodes[nodesNum[GetInd(chosen[i])] - 1].getLongitude()) <= 6)
+        //         {
+        //             chosen_chk[i] = true;
+        //             break;
+        //         }
+        //     }
+        // }
+        chosen_chk[getFirstNotGone()] = true;
     }
 
     private GPS UpdateGPSData() //유저 현재 데이터 리턴
