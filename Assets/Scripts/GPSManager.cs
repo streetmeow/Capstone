@@ -621,7 +621,6 @@ public class GPSManager : MonoBehaviour
     public static double MAX_D = 6781;              //현재 모든 경로의 합. 초기화에 사용
     double[,] map = new double[MAX_N,MAX_N];        //경로 계산 위한 2차원 배열
     private double Min_Sum;                         //경로 계산 시 최소 길이 경로 찾기 위한 총 길이
-    //bool[] nodeVisit = new bool[MAX_N];
     private double[] nodeDst = new double[MAX_N];   //경로 계산 시 각 노드의 최소 경로 담고 있음
     private int[] Min_Path = new int[MAX_N];        //경로의 노드 순서를 담고 있음
     
@@ -656,11 +655,7 @@ public class GPSManager : MonoBehaviour
             map[tmp[0],tmp[1]] = roads[i].getDist();
             map[tmp[1],tmp[0]] = roads[i].getDist();
         }
-
-        foreach (String s in this.chosen)
-        {
-            Debug.Log(s);
-        }
+        
         Input.location.Start(desiredAccuracyInMeters:5,updateDistanceInMeters:1); //유저 GPS 시작
         GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
@@ -837,9 +832,11 @@ public class GPSManager : MonoBehaviour
         return gpsWay;
     }
 
-    public void hasArrived(String none) //넘겨받은 string의 bool[] true로 함.
+    public void hasArrived(int ind) //넘겨받은 ind로 chosen_chk 변경.
     {
-        if (none.Equals("None"))
+        double usrLat = nodes[nodesNum[ind]].getLatitude(), usrLong = nodes[nodesNum[ind]].getLongitude();
+        if(Distance(usrLat, usrLong, nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLatitude(), 
+               nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLongitude()) <= 6)
         {
             chosen_chk[getFirstNotGone()] = true;
         }
@@ -847,7 +844,8 @@ public class GPSManager : MonoBehaviour
         {
             for (int i = 0; i < chosen.Count; i++)
             {
-                if (chosen[i].Equals(none))
+                if (!chosen_chk[i] && Distance(usrLat, usrLong,
+                        nodes[nodesNum[GetInd(chosen[i])] - 1].getLatitude(), nodes[nodesNum[GetInd(chosen[i])] - 1].getLongitude()) <= 6)
                 {
                     chosen_chk[i] = true;
                     break;
