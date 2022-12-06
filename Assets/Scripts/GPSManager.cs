@@ -165,8 +165,8 @@ public class GPSManager : MonoBehaviour
         "지하 6층, 지상 12층의 규모로 국내 대학 중 단일건물 면적으로 단연 최대 규모이다. 건물 내 엘리베이터 13대, 에스컬레이터도 건물 내부에 6대, 건물 외부에 4대가 각각 설치됐다. 100주년기념사업단 및 경영, 경제, 공과, 창의 ICT 공과 대학이 사용 중이다.",
         "중앙마루를 지나면 나오는 연못으로 가운데 큰 청룡상과 지구본이 연못 한 가운데 있다.",
         "농구장과 족구장이 갖추어진 제2운동장으로 정규 코트외 4개의 농구대가 각각 비치되어 있다.",
-        "정문과 영신관, 102관(약학대학 및 R&D 센터)사이에 위치한 녹지공간이다.",
         "흔히 빼빼로 광장이라고 학생들 사이에서 불리며 2011년 1월 완공되어 청룡연못과 중앙광장을 잇는 계단으로 계단 좌우로 쉼터가 마련되어있고 야간에는 조명 불빛이 운치 있다. ",
+        "정문과 영신관, 102관(약학대학 및 R&D 센터)사이에 위치한 녹지공간이다.",
         "1960년 4월 19일 민주화와 정치발전을 외치며 산화한 6인열사를 추모하기 위해 건립된 탑이다.",
         "상도역으로 통학하는 학생들이 주로 사용하는 문이다."
     };
@@ -711,7 +711,7 @@ public class GPSManager : MonoBehaviour
         //pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
 
-    private int GetInd(String str) //string의 index검색
+    public int GetInd(String str) //string의 index검색
     {
         for(int i = 0; i < BLDGSeq.Length; i++)
         {
@@ -881,8 +881,8 @@ public class GPSManager : MonoBehaviour
         }
 
         //현재 위치에서 가장 가까운 노드까지 몇번 쪼개는 작업이 필요함.
-        int latTimes = (int)((userLoc.getLatitude() - nodes[ind].getLatitude()) / 0.00005);
-        int lonTimes = (int) ((userLoc.getLongitude() - nodes[ind].getLongitude()) / 0.00005);
+        int latTimes = (int)((userLoc.getLatitude() - nodes[ind].getLatitude()) / 0.00009);
+        int lonTimes = (int) ((userLoc.getLongitude() - nodes[ind].getLongitude()) / 0.00009);
         int times = latTimes > lonTimes ? latTimes : lonTimes;
         for (int i = 0; i < times; i++)
         {
