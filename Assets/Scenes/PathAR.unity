@@ -2263,7 +2263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gpsManager: {fileID: 0}
-  buildingPrefab: {fileID: 3465328668239822088, guid: e3db618a17ef7cf42a4a6f952ec039e9,
+  buildingPrefab: {fileID: 79654108653176290, guid: 25f050c5593c32e4c8b25c0c5662e9de,
     type: 3}
   arManager: {fileID: 1666886236}
 --- !u!4 &1871019022
