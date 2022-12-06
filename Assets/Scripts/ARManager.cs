@@ -74,7 +74,7 @@ public class ARManager : MonoBehaviour
             title.text = lastName;
             body.text = lastExplanation;
             nextButtonText.text = "다음 장소로";
-            gpsManager.hasArrived(lastName);
+            //gpsManager.hasArrived(lastName); //int값으로 바꿔서 주석 처리!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
             for (int i = 0; i < pathObjects.Count; i++)
             {
                 Destroy(pathObjects[i]);
