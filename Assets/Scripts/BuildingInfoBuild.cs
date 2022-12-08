@@ -60,14 +60,15 @@ public class BuildingInfoBuild : MonoBehaviour
         bool questGenerated = false;
         foreach (var kv in buildingData.ToList())
         {
-            if (kv.Key.IsQuest() && !questGenerated && kv.Key.IsClose(0.0006d) && kv.Value == null 
+            if (kv.Key.IsQuest() && !questGenerated && kv.Key.IsClose(0.0005d) && kv.Value == null 
                 && !arManager.canvas.activeSelf)
             {
                 questGenerated = true;
                 arManager.SetText(kv.Key);
                 buildingData[kv.Key] = new GameObject();
             } 
-            else if (!kv.Key.IsQuest() && kv.Key.IsClose(0.0008d) && kv.Value == null)
+            else if (kv.Key.IsClose(0.0005d) && kv.Value == null 
+                     && kv.Key.building != arManager.building.building)
             {
                 var loc = new Location()
                 {
@@ -92,11 +93,18 @@ public class BuildingInfoBuild : MonoBehaviour
                 PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
                 buildingData[kv.Key] = obj;
             } 
-            else if (!kv.Key.IsQuest() && !kv.Key.IsClose(0.0008d) && kv.Value != null)
+            else if (!kv.Key.IsClose(0.0005d) && kv.Value != null)
             {
                 GameObject tempObj = kv.Value;
                 buildingData[kv.Key] = null;
                 Destroy(tempObj);
+            }
+            if (kv.Value != null && kv.Key.building == arManager.building.building)
+            {
+                GameObject tempObj = kv.Value;
+                buildingData[kv.Key] = null;
+                Destroy(tempObj);
+                if (kv.Key.IsQuest()) buildingData[kv.Key] = new GameObject();
             }
         }
         StartCoroutine(CheckLocation());

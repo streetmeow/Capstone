@@ -13,7 +13,7 @@ public class ARManager : MonoBehaviour
     public TextMeshProUGUI body;
     public TextMeshProUGUI nextButtonText;
     public GameObject pathPrefab;
-    public GameObject p;
+    public GameObject destPrefab;
     public GameObject canvas;
     public ARRaycastManager arRaycastManager;
     public TextMeshProUGUI destText;
@@ -26,9 +26,10 @@ public class ARManager : MonoBehaviour
     private List<GameObject> pathObjects = new List<GameObject>();
     private String lastName;
     private String lastExplanation;
-    private Buildings building = new Buildings();
+    public Buildings building = new Buildings();
     private bool isFirst = true;
     private bool isTest = false;
+    private GameObject destObj = null;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class ARManager : MonoBehaviour
     void Start()
     {
         SetPath();
+        destText.text = "탐색 중";
     }
 
     public void SetText(Buildings buildings)
@@ -61,7 +63,9 @@ public class ARManager : MonoBehaviour
     {
         if (nextButtonText.text != "다음 장소로") return;
         isFirst = true;
-        StartCoroutine(CheckArrival());
+        // distanceText.text = gpsManager.chosen_chk.Count.ToString();
+        // destText.text = "true";
+        StartCoroutine(CheckArrival(true));
 
     }
 
@@ -70,31 +74,35 @@ public class ARManager : MonoBehaviour
         isTest = true;
     }
 
-    IEnumerator CheckArrival()
+    public void HasArrived()
+    {
+        if (!building.IsClose(0.0007d) && !isTest) return;
+        destText.text = "탐색 중";
+        nextButtonText.text = "다음 장소로";
+        title.text = building.building;
+        body.text = building.explanation;
+        gpsManager.hasArrived(lastInt);
+        for (int i = 0; i < pathObjects.Count; i++)
+        {
+            Destroy(pathObjects[i]);
+        }
+        pathObjects.Clear();
+        Destroy(destObj);
+        destObj = null;
+        building = null;
+        StopCoroutine(CheckArrival(false));
+        // StartCoroutine(CheckArrival());
+    }
+
+    IEnumerator CheckArrival(bool arrive)
     {
         yield return new WaitForSeconds(3);
-        distanceText.text = building.Distance().ToString();
-        if ((building.IsClose(0.0006d) && !isFirst) || isTest)
-        {
-            Debug.Log("isFirst " + isFirst);
-            isTest = false;
-            canvas.SetActive(true);
-            title.text = lastName;
-            body.text = lastExplanation;
-            nextButtonText.text = "다음 장소로";
-            gpsManager.hasArrived(lastInt);
-            for (int i = 0; i < pathObjects.Count; i++)
+        // destText.text = isFirst.ToString();
+        // destText.text = "wow";
+        if (arrive)
             {
-                Destroy(pathObjects[i]);
-            }
-            pathObjects.Clear();
-        }
-        else
-        {
-            if (isFirst)
-            {
-                Debug.Log("gps first " + gpsManager.getFirstNotGone());
                 isFirst = false;
+                building = new Buildings();
                 lastName = gpsManager.chosen[gpsManager.getFirstNotGone()];
                 lastInt = gpsManager.GetInd(lastName);
                 lastExplanation = gpsManager.infoStrings[lastInt];
@@ -103,6 +111,25 @@ public class ARManager : MonoBehaviour
                 building.latitude = gpsManager.NodesForBuildings[lastInt].getLatitude();
                 building.longitude = gpsManager.NodesForBuildings[lastInt].getLongitude();
                 destText.text = lastName;
+                var loc = new Location()
+                {
+                    Latitude = building.latitude,
+                    Longitude = building.longitude,
+                    Altitude = 0,
+                    AltitudeMode = AltitudeMode.DeviceRelative
+                };
+                var opts = new PlaceAtLocation.PlaceAtOptions()
+                {
+                    HideObjectUntilItIsPlaced = true,
+                    MaxNumberOfLocationUpdates = 2,
+                    MovementSmoothing = 0.1f,
+                    UseMovingAverage = false
+                };
+                destObj = Instantiate(destPrefab);
+                destObj.GetComponent<BuildingText>().SetBuilding(lastName, lastExplanation);
+                destObj.GetComponent<BuildingText>().SetText("목적지");
+                distanceText.text = building.Distance().ToString();
+                PlaceAtLocation.AddPlaceAtComponent(destObj, loc, opts);
             }
             if (pathObjects.Count > 0)
             {
@@ -134,9 +161,9 @@ public class ARManager : MonoBehaviour
                 GameObject obj = Instantiate(pathPrefab);
                 PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
                 pathObjects.Add(obj);
+                distanceText.text = building.Distance().ToString();
             }
-            StartCoroutine(CheckArrival());
-        }
+            if (!building.IsClose(0.0007d)) StartCoroutine(CheckArrival(false));
     }
 
 }

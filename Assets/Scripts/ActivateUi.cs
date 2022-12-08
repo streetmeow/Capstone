@@ -12,6 +12,7 @@ public class ActivateUi : MonoBehaviour
     public TextMeshProUGUI title;
     public TextMeshProUGUI body;
     public TextMeshProUGUI buttonText;
+    public ARManager arManager;
     
     [SerializeField]
     private Camera arCamera;
@@ -53,6 +54,10 @@ public class ActivateUi : MonoBehaviour
                         title.text = oi.Name;
                         body.text = oi.Explanation;
                         buttonText.text = "확인";
+                        if (hitObject.transform.gameObject.name == "dest")
+                        {
+                            arManager.HasArrived();
+                        }
                     }
                 }
             }

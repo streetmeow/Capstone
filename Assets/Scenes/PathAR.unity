@@ -1207,7 +1207,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "310\uAD00 (100\uC8FC\uB144 \uAE30\uB150\uAD00)"
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f582d44ae285294d91a2dbf4a572e54, type: 2}
   m_sharedMaterial: {fileID: 5936440054398384251, guid: 2f582d44ae285294d91a2dbf4a572e54,
@@ -1421,7 +1421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1368874961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1913,7 +1913,8 @@ MonoBehaviour:
   nextButtonText: {fileID: 103065010}
   pathPrefab: {fileID: 1712850736754942611, guid: 4aa2db0d0119d244cb00f006ab63c579,
     type: 3}
-  p: {fileID: 1712850736754942611, guid: 4aa2db0d0119d244cb00f006ab63c579, type: 3}
+  destPrefab: {fileID: 8991253977644797536, guid: 1406a896271c1ee48aa64a3927e6b321,
+    type: 3}
   canvas: {fileID: 934963516}
   arRaycastManager: {fileID: 0}
   destText: {fileID: 1898421811}
@@ -2232,6 +2233,7 @@ MonoBehaviour:
   title: {fileID: 508618054}
   body: {fileID: 2059899051}
   buttonText: {fileID: 103065010}
+  arManager: {fileID: 1666886236}
   arCamera: {fileID: 1680938969}
 --- !u!1 &1871019020
 GameObject:
@@ -2339,7 +2341,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "310\uAD00 (100\uC8FC\uB144 \uAE30\uB150\uAD00)"
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f582d44ae285294d91a2dbf4a572e54, type: 2}
   m_sharedMaterial: {fileID: 5936440054398384251, guid: 2f582d44ae285294d91a2dbf4a572e54,
