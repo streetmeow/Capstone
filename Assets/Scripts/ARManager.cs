@@ -18,6 +18,8 @@ public class ARManager : MonoBehaviour
     public ARRaycastManager arRaycastManager;
     public TextMeshProUGUI destText;
     public TextMeshProUGUI distanceText;
+    public GameObject finishObj;
+    public TextMeshProUGUI finishText;
 
     private Vector2 testVec;
     private GPSManager gpsManager;
@@ -112,6 +114,11 @@ public class ARManager : MonoBehaviour
             {
                 isFirst = false;
                 building = new Buildings();
+                if (gpsManager.getFirstNotGone() == -1)
+                {
+                    ActivateFinish();
+                    yield break;
+                }
                 lastName = gpsManager.chosen[gpsManager.getFirstNotGone()];
                 lastInt = gpsManager.GetInd(lastName);
                 lastExplanation = gpsManager.infoStrings[lastInt];
@@ -173,6 +180,15 @@ public class ARManager : MonoBehaviour
                 distanceText.text = building.Distance().ToString();
             }
             if (!building.IsClose(0.0007d)) StartCoroutine(CheckArrival(false));
+    }
+
+    void ActivateFinish()
+    {
+        nextButtonText.text = "안내 종료";
+        destText.text = "안내 종료";
+        distanceText.text = "";
+        finishObj.SetActive(true);
+        finishText.text = DateTime.Now.ToString("yyyy년 MM월 dd일");
     }
 
 }
