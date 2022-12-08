@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
+    /*
+     * 오브젝트풀링을 구현해보려고 하였으나, gps 기반 정보 활용상 문제가 생겨 사장됨
+     */
     public GameObject pathPrefab;
     public GameObject destinationPrefab;
     public GameObject questPrefab;

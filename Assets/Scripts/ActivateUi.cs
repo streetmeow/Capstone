@@ -31,6 +31,10 @@ public class ActivateUi : MonoBehaviour
     }
 
     void Update()
+    /*
+     * raycast 로 충돌 감지 후, Player 태그의 오브젝트일 경우 해당 오브젝트 건물 정보 읽어와
+     * UI를 통해 해당 건물의 이름, 설명 띄움
+     */
     {
         if (ui.activeSelf)
         {

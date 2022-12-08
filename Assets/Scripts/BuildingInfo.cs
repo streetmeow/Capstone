@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Buildings
 {
+    /*
+     * 건물 이름, 설명, 위치 정보 등을 저장.
+     * 또, 특수지역 여부, 일정 범위 이내 여부 등을 판단하는 함수 포함함. 
+     */
     public String building { get; set; }
     public String explanation { get; set; }
     public double latitude { get; set; }
