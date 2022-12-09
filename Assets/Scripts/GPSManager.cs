@@ -165,8 +165,8 @@ public class GPSManager : MonoBehaviour
         "지하 6층, 지상 12층의 규모로 국내 대학 중 단일건물 면적으로 단연 최대 규모이다. 건물 내 엘리베이터 13대, 에스컬레이터도 건물 내부에 6대, 건물 외부에 4대가 각각 설치됐다. 100주년기념사업단 및 경영, 경제, 공과, 창의 ICT 공과 대학이 사용 중이다.",
         "중앙마루를 지나면 나오는 연못으로 가운데 큰 청룡상과 지구본이 연못 한 가운데 있다.",
         "농구장과 족구장이 갖추어진 제2운동장으로 정규 코트외 4개의 농구대가 각각 비치되어 있다.",
-        "정문과 영신관, 102관(약학대학 및 R&D 센터)사이에 위치한 녹지공간이다.",
         "흔히 빼빼로 광장이라고 학생들 사이에서 불리며 2011년 1월 완공되어 청룡연못과 중앙광장을 잇는 계단으로 계단 좌우로 쉼터가 마련되어있고 야간에는 조명 불빛이 운치 있다. ",
+        "정문과 영신관, 102관(약학대학 및 R&D 센터)사이에 위치한 녹지공간이다.",
         "1960년 4월 19일 민주화와 정치발전을 외치며 산화한 6인열사를 추모하기 위해 건립된 탑이다.",
         "상도역으로 통학하는 학생들이 주로 사용하는 문이다."
     };
@@ -621,7 +621,6 @@ public class GPSManager : MonoBehaviour
     public static double MAX_D = 6781;              //현재 모든 경로의 합. 초기화에 사용
     double[,] map = new double[MAX_N,MAX_N];        //경로 계산 위한 2차원 배열
     private double Min_Sum;                         //경로 계산 시 최소 길이 경로 찾기 위한 총 길이
-    //bool[] nodeVisit = new bool[MAX_N];
     private double[] nodeDst = new double[MAX_N];   //경로 계산 시 각 노드의 최소 경로 담고 있음
     private int[] Min_Path = new int[MAX_N];        //경로의 노드 순서를 담고 있음
     
@@ -656,13 +655,12 @@ public class GPSManager : MonoBehaviour
             map[tmp[0],tmp[1]] = roads[i].getDist();
             map[tmp[1],tmp[0]] = roads[i].getDist();
         }
-
-        foreach (String s in this.chosen)
+        Input.location.Start(desiredAccuracyInMeters:5,updateDistanceInMeters:1); //유저 GPS 시작
+        chosen = GetPath(); //후문서부터 거리를 이용하여 유저 선택 위치 재배치
+        foreach (String s in chosen)
         {
             Debug.Log(s);
         }
-        Input.location.Start(desiredAccuracyInMeters:5,updateDistanceInMeters:1); //유저 GPS 시작
-        GetPath(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
     }
     public double Distance(double lat1, double lon1, double lat2, double lon2) // 두 GPS간 거리 계산
     {
@@ -686,17 +684,18 @@ public class GPSManager : MonoBehaviour
     {
         return (double)(rad * (double)180d / Math.PI);
     }
-    public void GetPath() // 유저로부터 넘겨받은 chosen을 거리에 따라 경로 변경
+    public List<String> GetPath() // 유저로부터 넘겨받은 chosen을 거리에 따라 경로 변경
     {
-        double currLon = buildings[0].getLatitude(), currLat = buildings[0].getLongitude();
-        for (int i = 0; i < chosen.Count - 1; i++)
+        GPS currLoc = NodesForBuildings[29];
+        for (int i = 0; i < chosen.Count; i++)
         {
-            double dist = 100000, tmp;
+            double dist = MAX_D, tmp;
             int nextInd = i;
             for (int j = i; j < chosen.Count; j++)
             {
                 int ind = GetInd(chosen[j]);
-                tmp = Distance(currLat, currLon, buildings[ind].getLatitude(), buildings[ind].getLongitude());
+                tmp = Distance(currLoc.getLatitude(), currLoc.getLongitude(),
+                    NodesForBuildings[ind].getLatitude(), NodesForBuildings[ind].getLongitude());
                 if (dist > tmp)
                 {
                     dist = tmp;
@@ -709,14 +708,12 @@ public class GPSManager : MonoBehaviour
                 chosen[nextInd] = chosen[i];
                 chosen[i] = str;
             }
-            currLon = buildings[nextInd].getLatitude();
-            currLat = buildings[nextInd].getLongitude();
+            currLoc = NodesForBuildings[GetInd(chosen[i])];
         }
-        chosen.Add("정문"); //마지막 위치까지 간 후 다시 정문으로 돌아오기 위함
-        //pathInfo(); //테스트 위해 일단 함수를 줄줄이 부르는 형태
+        return chosen;
     }
 
-    private int GetInd(String str) //string의 index검색
+    public int GetInd(String str) //string의 index검색
     {
         for(int i = 0; i < BLDGSeq.Length; i++)
         {
@@ -837,23 +834,27 @@ public class GPSManager : MonoBehaviour
         return gpsWay;
     }
 
-    public void hasArrived(String none) //넘겨받은 string의 bool[] true로 함.
+    public void hasArrived(int ind) //넘겨받은 ind로 chosen_chk 변경.
     {
-        if (none.Equals("None"))
-        {
-            chosen_chk[getFirstNotGone()] = true;
-        }
-        else
-        {
-            for (int i = 0; i < chosen.Count; i++)
-            {
-                if (chosen[i].Equals(none))
-                {
-                    chosen_chk[i] = true;
-                    break;
-                }
-            }
-        }
+        // double usrLat = nodes[nodesNum[ind]].getLatitude(), usrLong = nodes[nodesNum[ind]].getLongitude();
+        // if(Distance(usrLat, usrLong, nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLatitude(), 
+        //        nodes[nodesNum[GetInd(chosen[getFirstNotGone()])] - 1].getLongitude()) <= 6)
+        // {
+        //     chosen_chk[getFirstNotGone()] = true;
+        // }
+        // else
+        // {
+        //     for (int i = 0; i < chosen.Count; i++)
+        //     {
+        //         if (!chosen_chk[i] && Distance(usrLat, usrLong,
+        //                 nodes[nodesNum[GetInd(chosen[i])] - 1].getLatitude(), nodes[nodesNum[GetInd(chosen[i])] - 1].getLongitude()) <= 6)
+        //         {
+        //             chosen_chk[i] = true;
+        //             break;
+        //         }
+        //     }
+        // }
+        chosen_chk[getFirstNotGone()] = true;
     }
 
     private GPS UpdateGPSData() //유저 현재 데이터 리턴
@@ -861,17 +862,17 @@ public class GPSManager : MonoBehaviour
         return new GPS(Input.location.lastData.latitude * 1d, Input.location.lastData.longitude * 1d);
     }
 
-    public List<GPS> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로
+    public List<GPS> OutOfPath() //경로 밖으로 나갈 때 유저 위치에서 부터 다음 위치까지의 경로. 유저가 길 위에 있다고 가정.
     {
         List<GPS> newPath = new List<GPS>();
         GPS[] arr_tmp;
         double dist_tmp = 0;
         GPS userLoc = UpdateGPSData();
-        // GPS userLoc = new GPS(37.506484, 126.958078);
-        double dist = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[0].getLatitude(),
-            nodes[0].getLongitude());
+        //GPS userLoc = new GPS(37.506484, 126.958078);
+        //double dist = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[0].getLatitude(), nodes[0].getLongitude());
+        double dist = MAX_D;
         int ind = 0, finind1 = 0, finind2 = 0;
-        for (int i = 1; i < nodes.Length; i++) //현재 위치에서 가장 가까운 노드와 인덱스 탐색
+        for (int i = 0; i < nodes.Length; i++) //현재 위치에서 가장 가까운 노드와 인덱스 탐색
         {
             dist_tmp = Distance(userLoc.getLatitude(), userLoc.getLongitude(), nodes[i].getLatitude(),
                 nodes[i].getLongitude());
@@ -881,28 +882,68 @@ public class GPSManager : MonoBehaviour
                 ind = i;
             }
         }
-
+        
+        dist = MAX_D;
+        for (int i = 0; i < roads.Length; i++)
+        {
+            if (roads[i].getPnt()[0] == ind || roads[i].getPnt()[1] == ind) //노드가 있는 road만 검색
+            {
+                arr_tmp = roads[i].getRoute();
+                for(int j = 0; j < arr_tmp.Length; j++) //노드가 있는 road에서 제일 가까운 점 탐색
+                {
+                    dist_tmp = Distance(userLoc.getLatitude(), userLoc.getLongitude(), arr_tmp[j].getLatitude(),
+                        arr_tmp[j].getLongitude());
+                    if (dist > dist_tmp)
+                    {
+                        dist = dist_tmp;
+                        finind1 = i;
+                        finind2 = j;
+                    }
+                }
+            }
+        }
+        
         //현재 위치에서 가장 가까운 노드까지 몇번 쪼개는 작업이 필요함.
-        int latTimes = (int)((userLoc.getLatitude() - nodes[ind].getLatitude()) / 0.00005);
-        int lonTimes = (int) ((userLoc.getLongitude() - nodes[ind].getLongitude()) / 0.00005);
-        int times = latTimes > lonTimes ? latTimes : lonTimes;
+        /*int latTimes = (int)((userLoc.getLatitude() - nodes[ind].getLatitude()) / 0.00005);
+        int lonTimes = (int) ((userLoc.getLongitude() - nodes[ind].getLongitude()) / 0.00005);*/
+        int latTimes = (int)((userLoc.getLatitude() - roads[finind1].getRoute()[finind2].getLatitude()) / 0.0003);
+        int lonTimes = (int) ((userLoc.getLongitude() - roads[finind1].getRoute()[finind2].getLongitude()) / 0.0003);
+        int times = latTimes > lonTimes ? lonTimes : latTimes;
         for (int i = 0; i < times; i++)
         {
             newPath.Add(new GPS(userLoc.getLatitude() + (userLoc.getLatitude() - nodes[ind].getLatitude()) * (i + 1) / times,
                 userLoc.getLongitude() + (userLoc.getLongitude() - nodes[ind].getLongitude()) * (i + 1) / times));
         }
-
-
+        
+        //가장 가까운 점에서 가장 가까운 노드가 있는 방향 탐색
+        newPath.Add(userLoc); //유저 현재 위치 추가
+        arr_tmp = roads[finind1].getRoute();
+        if (roads[finind1].getPnt()[0] == ind) //역방향
+        {
+            for (int i = finind2; i >= 0; i--)
+            {
+                newPath.Add(arr_tmp[i]);
+            }
+        }
+        else //정방향
+        {
+            for (int i = finind2; i < arr_tmp.Length; i++)
+            {
+                newPath.Add(arr_tmp[i]);
+            }
+        }
+        
         foreach (GPS s in GetWay(ind, nodesNum[GetInd(chosen[getFirstNotGone()])]))
         {
             newPath.Add(s);
         }
-
         return newPath;
     }
-    public List<GPS> QuestPath(String questLoc) // 마지막 도착 건물 - 퀘스트 위치
+    public List<GPS> QuestPath(int ind) // 마지막 도착 건물 - 퀘스트 위치
     {
-        return GetWay(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[GetInd(questLoc)]);
+        return GetWay(nodesNum[GetInd(chosen[getLastGone()])], nodesNum[ind]);
 
     }
+    
+    
 }

@@ -12,6 +12,7 @@ public class ActivateUi : MonoBehaviour
     public TextMeshProUGUI title;
     public TextMeshProUGUI body;
     public TextMeshProUGUI buttonText;
+    public ARManager arManager;
     
     [SerializeField]
     private Camera arCamera;
@@ -30,6 +31,10 @@ public class ActivateUi : MonoBehaviour
     }
 
     void Update()
+    /*
+     * raycast 로 충돌 감지 후, Player 태그의 오브젝트일 경우 해당 오브젝트 건물 정보 읽어와
+     * UI를 통해 해당 건물의 이름, 설명 띄움
+     */
     {
         if (ui.activeSelf)
         {
@@ -53,6 +58,10 @@ public class ActivateUi : MonoBehaviour
                         title.text = oi.Name;
                         body.text = oi.Explanation;
                         buttonText.text = "확인";
+                        if (hitObject.transform.gameObject.name == "dest")
+                        {
+                            arManager.HasArrived();
+                        }
                     }
                 }
             }
