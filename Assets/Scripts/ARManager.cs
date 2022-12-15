@@ -17,7 +17,7 @@ public class ARManager : MonoBehaviour
     public GameObject canvas;
     public ARRaycastManager arRaycastManager;
     public TextMeshProUGUI destText;
-    public TextMeshProUGUI distanceText;
+    // public TextMeshProUGUI distanceText;
     public GameObject finishObj;
     public TextMeshProUGUI finishText;
 
@@ -144,7 +144,7 @@ public class ARManager : MonoBehaviour
                 destObj = Instantiate(destPrefab);
                 destObj.GetComponent<BuildingText>().SetBuilding(lastName, lastExplanation);
                 destObj.GetComponent<BuildingText>().SetText("목적지");
-                distanceText.text = building.Distance().ToString();
+                // distanceText.text = building.Distance().ToString();
                 PlaceAtLocation.AddPlaceAtComponent(destObj, loc, opts);
             }
             if (pathObjects.Count > 0)
@@ -177,7 +177,7 @@ public class ARManager : MonoBehaviour
                 GameObject obj = Instantiate(pathPrefab);
                 PlaceAtLocation.AddPlaceAtComponent(obj, loc, opts);
                 pathObjects.Add(obj);
-                distanceText.text = building.Distance().ToString();
+                // distanceText.text = building.Distance().ToString();
             }
             if (!building.IsClose(0.0007d)) StartCoroutine(CheckArrival(false));
     }
@@ -186,7 +186,7 @@ public class ARManager : MonoBehaviour
     {
         nextButtonText.text = "안내 종료";
         destText.text = "안내 종료";
-        distanceText.text = "";
+        // distanceText.text = "";
         finishObj.SetActive(true);
         finishText.text = DateTime.Now.ToString("yyyy년 MM월 dd일");
     }

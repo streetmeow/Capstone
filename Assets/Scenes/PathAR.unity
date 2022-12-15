@@ -1512,7 +1512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1069824701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2264,7 +2264,6 @@ MonoBehaviour:
   canvas: {fileID: 934963516}
   arRaycastManager: {fileID: 0}
   destText: {fileID: 1898421811}
-  distanceText: {fileID: 1069824702}
   finishObj: {fileID: 1957501948}
   finishText: {fileID: 467858728}
 --- !u!4 &1666886237
@@ -2429,7 +2428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1706140226
 RectTransform:
   m_ObjectHideFlags: 0
